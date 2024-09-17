@@ -1,6 +1,7 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <img style="height: 60px; "
+        <img
+            style="height: 60px"
             src="assets/layout/images/{{
                 layoutService.config().colorScheme === 'light'
                     ? 'shopmain'
@@ -34,17 +35,22 @@
                 layoutService.state.profileSidebarVisible
         }"
     >
-        <button class="p-link layout-topbar-button">
+        <!-- <button class="p-link layout-topbar-button"
+        [routerLink]="'auth/access'"
+        >
             <i class="pi pi-calendar"></i>
             <span>Calendar</span>
         </button>
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-user"></i>
-            <span>Profile</span>
-        </button>
         <button
             class="p-link layout-topbar-button"
-            [routerLink]="'/documentation'"
+            [routerLink]="'auth/error'"
+        >
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button> -->
+        <button
+            class="p-link layout-topbar-button"
+            [routerLink]="'auth/login'"
         >
             <i class="pi pi-cog"></i>
             <span>Settings</span>
