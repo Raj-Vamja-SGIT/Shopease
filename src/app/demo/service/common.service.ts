@@ -10,17 +10,17 @@ export class CommonService {
     public apiUrl = {
         baseURL: CommonService.BaseURL,
         auth: {
-            login: 'api/login',
+            login: 'api/Login',
         },
     };
 
     constructor(private http: HttpClient) {}
 
-    login(username: string, password: string): Observable<any> {
+    login(EmailId: string, Password: string): Observable<any> {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
         });
-        const body = JSON.stringify({ username, password });
+        const body = JSON.stringify({ EmailId, Password });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.login}`;
         return this.http.post<any>(url, body, { headers });
     }

@@ -19,6 +19,11 @@ import { AppSidebarComponent } from "./app.sidebar.component";
 import { AppLayoutComponent } from "./app.layout.component";
 import { TooltipModule } from 'primeng/tooltip';
 import { MenuModule } from 'primeng/menu';
+import { ToastrMessageService } from '../demo/service/toastr.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
     declarations: [
@@ -43,8 +48,12 @@ import { MenuModule } from 'primeng/menu';
         RouterModule,
         AppConfigModule,
         TooltipModule,
-        MenuModule
+        MenuModule,
+        ToastModule,
+        MessagesModule,
+        MessageModule,
     ],
-    exports: [AppLayoutComponent]
+    exports: [AppLayoutComponent],
+    providers: [MessageService, ToastrMessageService],
 })
 export class AppLayoutModule { }

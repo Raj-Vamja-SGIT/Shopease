@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { CommonService } from './../../../service/common.service';
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
@@ -25,33 +26,54 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
             }
         `,
     ],
-    providers: [MessageService, ToastrMessageService]
-
+    providers: [MessageService, ToastrMessageService],
 })
 export class LoginComponent {
     valCheck: string[] = ['remember'];
-    password!: string;
-    username!: string;
+    Password!: string;
+    EmailId!: string;
+    loading: boolean = false;
 
     constructor(
         public layoutService: LayoutService,
         private service: CommonService,
         private toastr: ToastrMessageService,
-        private tst: MessageService
+        private router: Router
     ) {
         this.toastr.error('Error!', 'Username or password are incorrcet.');
     }
-    
+
     onLogin() {
-        this.service.login(this.username, this.password).subscribe(
+        this.loading = true;
+        this.service.login(this.EmailId, this.Password).subscribe(
             (response) => {
-                console.log('Login successful', response);
+                if (response.success) {
+                    localStorage.setItem(
+                        'AuthToken',
+                        response.data.accessToken.token
+                    );
+                    this.toastr.success(
+                        'Success',
+                        'User logged in successfully'
+                    );
+                    this.loading = true;
+                    setTimeout(() => {
+                        this.router.navigate(['home/dashboard']);
+                    }, 1200);
+                } else {
+                    this.toastr.error(
+                        'Error!',
+                        'Something went wrong, please try again later.'
+                    );
+                    this.loading = false;
+                }
             },
             (error) => {
                 this.toastr.error(
                     'Error!',
                     'Username or password are incorrcet.'
                 );
+                this.loading = false;
             }
         );
     }

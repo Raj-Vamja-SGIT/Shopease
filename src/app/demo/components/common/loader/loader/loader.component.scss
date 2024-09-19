@@ -1,0 +1,19 @@
+// .card {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     height: 100vh;
+// }
+
+.card {
+    // display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with 50% opacity */
+    position: fixed; /* Ensures the loader stays in place */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999; /* High z-index to overlay on top of other elements */
+}

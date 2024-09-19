@@ -13,13 +13,13 @@ import { AppLayoutComponent } from './layout/app.layout.component';
                     // component: AppLayoutComponent,
                     component: LoginComponent,
                     children: [
-                        {
-                            path: '',
-                            loadChildren: () =>
-                                import(
-                                    './demo/components/dashboard/dashboard.module'
-                                ).then((m) => m.DashboardModule),
-                        },
+                        // {
+                        //     path: 'home',
+                        //     loadChildren: () =>
+                        //         import(
+                        //             './demo/components/dashboard/dashboard.module'
+                        //         ).then((m) => m.DashboardModule),
+                        // },
                         {
                             path: 'pages',
                             loadChildren: () =>
@@ -35,6 +35,19 @@ import { AppLayoutComponent } from './layout/app.layout.component';
                         import('./demo/components/auth/auth.module').then(
                             (m) => m.AuthModule
                         ),
+                },
+                {
+                    path: 'home',
+                    component: AppLayoutComponent,
+                    children: [
+                        {
+                            path: 'dashboard',
+                            loadChildren: () =>
+                                import(
+                                    './demo/components/dashboard/dashboard.module'
+                                ).then((m) => m.DashboardModule),
+                        },
+                    ],
                 },
                 { path: 'notfound', component: NotfoundComponent },
                 { path: '**', redirectTo: '/notfound' },

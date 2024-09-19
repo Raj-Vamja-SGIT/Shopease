@@ -18,6 +18,7 @@ import { ToastrMessageService } from './demo/service/toastr.service';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { RouterLink } from '@angular/router';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -25,7 +26,7 @@ import { MessageModule } from 'primeng/message';
         AppRoutingModule,
         AppLayoutModule,
         ButtonModule,
-        // ToastModule,
+        ToastModule,
         // MessagesModule,
         // MessageModule,
     ],
@@ -39,6 +40,7 @@ import { MessageModule } from 'primeng/message';
         PhotoService,
         ProductService,
         CommonService,
+        RouterLink
         // MessageService,
         // ToastrMessageService,
     ],

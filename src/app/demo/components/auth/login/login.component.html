@@ -1,4 +1,10 @@
-<p-toast key="tst"></p-toast>
+<app-loader *ngIf="loading"></app-loader>
+<p-toast
+    [showTransformOptions]="'translateY(100%)'"
+    [hideTransitionOptions]="'700ms'"
+    [showTransitionOptions]="'700ms'"
+    [showTransformOptions]="'translateX(100%)'"
+/>
 <div
     class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
 >
@@ -46,6 +52,7 @@
                         id="email1"
                         type="text"
                         placeholder="Email address"
+                        [(ngModel)]="EmailId"
                         pInputText
                         class="w-full md:w-30rem mb-5"
                         style="padding: 1rem"
@@ -58,7 +65,7 @@
                     >
                     <p-password
                         id="password1"
-                        [(ngModel)]="password"
+                        [(ngModel)]="Password"
                         [feedback]="false"
                         [toggleMask]="true"
                         placeholder="Password"

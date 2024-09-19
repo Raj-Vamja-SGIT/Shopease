@@ -9,7 +9,6 @@ export class ToastrMessageService {
 
     info(summary?: string, details?: string) {
         this.service.add({
-            key: 'tst',
             severity: 'info',
             summary: summary,
             detail: details,
@@ -18,7 +17,6 @@ export class ToastrMessageService {
 
     warning(summary?: string, details?: string) {
         this.service.add({
-            key: 'tst',
             severity: 'warn',
             summary: summary,
             detail: details,
@@ -27,7 +25,6 @@ export class ToastrMessageService {
 
     error(summary?: string, details?: string) {
         this.service.add({
-            key: 'tst',
             severity: 'error',
             summary: summary,
             detail: details,
@@ -36,7 +33,6 @@ export class ToastrMessageService {
 
     success(summary?: string, details?: string) {
         this.service.add({
-            key: 'tst',
             severity: 'success',
             summary: summary,
             detail: details,

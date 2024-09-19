@@ -10,6 +10,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
+import { RouterLink } from '@angular/router';
+import { LoaderComponent } from '../../common/loader/loader/loader.component';
 
 @NgModule({
     imports: [
@@ -22,7 +24,9 @@ import { ToastModule } from 'primeng/toast';
         PasswordModule,
         MessageModule,
         MessagesModule,
-        ToastModule
+        ToastModule,
+        RouterLink,
+        LoaderComponent
     ],
     declarations: [LoginComponent]
 })
