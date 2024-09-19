@@ -14,6 +14,7 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { ToastrMessageService } from '../../service/toastr.service';
 import { MessageService } from 'primeng/api';
+import { LoaderComponent } from '../common/loader/loader/loader.component';
 
 @NgModule({
     imports: [
@@ -29,6 +30,7 @@ import { MessageService } from 'primeng/api';
         ToastModule,
         MessagesModule,
         MessageModule,
+        LoaderComponent
     ],
     declarations: [DashboardComponent],
     providers: [MessageService, ToastrMessageService],

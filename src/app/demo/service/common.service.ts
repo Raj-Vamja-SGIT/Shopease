@@ -10,7 +10,7 @@ export class CommonService {
     public apiUrl = {
         baseURL: CommonService.BaseURL,
         auth: {
-            login: 'api/Login',
+            login: 'api/Auth/Login',
         },
     };
 
