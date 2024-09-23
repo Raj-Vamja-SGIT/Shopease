@@ -58,10 +58,11 @@ export class LoginComponent {
                     );
                     this.loading = true;
                     setTimeout(() => {
-                        this.router.navigate(['home/dashboard']);
+                        
+                        this.router.navigate(['home/dashboard'], { replaceUrl: true });
                     }, 1200);
                 } else {
-                    this.toastr.error(
+                    this.toastr.error(      
                         'Error!',
                         'Something went wrong, please try again later.'
                     );
