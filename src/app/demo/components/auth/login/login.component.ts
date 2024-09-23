@@ -48,13 +48,15 @@ export class LoginComponent {
         this.service.login(this.EmailId, this.Password).subscribe(
             (response) => {
                 if (response.success) {
-                    localStorage.setItem(
-                        'AuthToken',
-                        response.data.accessToken.token
-                    );
+                    const authData = {
+                        token: response.data.accessToken.token,
+                        userRole: response.data.userProfile.roleId,
+                    };
+                    localStorage.setItem('AuthData', JSON.stringify(authData));
+
                     this.toastr.success(
                         'Success',
-                        'User logged in successfully'
+                        `Account successfully logged in with ${response.data.userProfile.userName} .`
                     );
                     this.loading = true;
                     setTimeout(() => {

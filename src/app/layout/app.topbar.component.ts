@@ -46,7 +46,7 @@ export class AppTopBarComponent {
     }
 
     signOut() {
-        localStorage.removeItem('AuthToken');
+        localStorage.removeItem('AuthData');
         this.toastr.success('Success', 'User logged out successfully.');
         this.router.navigate(['auth/login']);
     }
