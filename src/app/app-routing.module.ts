@@ -20,13 +20,6 @@ import { AppLayoutComponent } from './layout/app.layout.component';
                         //             './demo/components/dashboard/dashboard.module'
                         //         ).then((m) => m.DashboardModule),
                         // },
-                        {
-                            path: 'pages',
-                            loadChildren: () =>
-                                import(
-                                    './demo/components/pages/pages.module'
-                                ).then((m) => m.PagesModule),
-                        },
                     ],
                 },
                 {
@@ -36,8 +29,9 @@ import { AppLayoutComponent } from './layout/app.layout.component';
                             (m) => m.AuthModule
                         ),
                 },
+
                 {
-                    path: 'home',
+                    path: 'shopease',
                     component: AppLayoutComponent,
                     children: [
                         {
@@ -46,6 +40,13 @@ import { AppLayoutComponent } from './layout/app.layout.component';
                                 import(
                                     './demo/components/dashboard/dashboard.module'
                                 ).then((m) => m.DashboardModule),
+                        },
+                        {
+                            path: 'pages',
+                            loadChildren: () =>
+                                import(
+                                    './demo/components/pages/pages.module'
+                                ).then((m) => m.PagesModule),
                         },
                     ],
                 },

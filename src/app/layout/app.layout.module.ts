@@ -15,8 +15,8 @@ import { RouterModule } from '@angular/router';
 import { AppTopBarComponent } from './app.topbar.component';
 import { AppFooterComponent } from './app.footer.component';
 import { AppConfigModule } from './config/config.module';
-import { AppSidebarComponent } from "./app.sidebar.component";
-import { AppLayoutComponent } from "./app.layout.component";
+import { AppSidebarComponent } from './app.sidebar.component';
+import { AppLayoutComponent } from './app.layout.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenuModule } from 'primeng/menu';
 import { ToastrMessageService } from '../demo/service/toastr.service';
@@ -24,6 +24,8 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { ChipModule } from 'primeng/chip';
+import { AvatarModule } from 'primeng/avatar';
 
 @NgModule({
     declarations: [
@@ -52,8 +54,18 @@ import { MessageModule } from 'primeng/message';
         ToastModule,
         MessagesModule,
         MessageModule,
+        ChipModule,
+        AvatarModule,
     ],
-    exports: [AppLayoutComponent],
+    exports: [
+        AppLayoutComponent,
+        AppMenuitemComponent,
+        AppTopBarComponent,
+        AppFooterComponent,
+        AppMenuComponent,
+        AppSidebarComponent,
+        AppLayoutComponent,
+    ],
     providers: [MessageService, ToastrMessageService],
 })
-export class AppLayoutModule { }
+export class AppLayoutModule {}

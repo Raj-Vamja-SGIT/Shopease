@@ -51,6 +51,7 @@ export class LoginComponent {
                     const authData = {
                         token: response.data.accessToken.token,
                         userRole: response.data.userProfile.roleId,
+                        userName: response.data.userProfile.userName 
                     };
                     localStorage.setItem('AuthData', JSON.stringify(authData));
 
@@ -60,7 +61,7 @@ export class LoginComponent {
                     );
                     this.loading = true;
                     setTimeout(() => {
-                        this.router.navigate(['home/dashboard']);
+                        this.router.navigate(['shopease/dashboard']);
                     }, 1200);
                 } else {
                     this.toastr.error(

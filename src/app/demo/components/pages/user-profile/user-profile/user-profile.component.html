@@ -1,0 +1,104 @@
+<p-toast />
+<div class="col-12">
+    <div class="card">
+        <h5>User Profile</h5>
+        <form #userProfileForm="ngForm" (ngSubmit)="onSave()">
+            <div class="p-fluid p-formgrid grid mt-5">
+                <div class="field col-12 field col-12 md:col-6">
+                    <label>Upload Image</label><br />
+                    <img
+                        alt="Thumbnail Image"
+                        *ngIf="thumbnailPhoto"
+                        class="img-avatar"
+                        src="{{ thumbnailPhoto }}"
+                    />
+                    <img
+                        alt="Thumbnail Image"
+                        *ngIf="defaultImg"
+                        class="img-avatar"
+                        src="../../../../assets/img/Default_Img.png"
+                    />
+                    <div class="inputTypeFileContainer">
+                        <input
+                            #thumbnailInput
+                            id="thumbnailAttachment"
+                            class="fileuploader"
+                            type="file"
+                            name="myfile"
+                            (change)="thumbnailAttachFileChanged($event)"
+                            title="{{ thumbnailName }}"
+                            accept="image/png, image/gif, image/jpeg"
+                        />
+                        <span class="spn_val" id="val_thumbnailAttachment">{{
+                            thumbnailPhoto
+                        }}</span>
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-upload"
+                            class="p-button-rounded"
+                            style="
+                                float: inline-end;
+                                height: 23px;
+                                width: 25px;
+                                background-color: #f96e66;
+                            "
+                            (click)="
+                                clickFileUploaderThumbnail(
+                                    'thumbnailAttachment'
+                                )
+                            "
+                        ></button>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <button
+                        (click)="deleteAttachFile()"
+                        *ngIf="deleteThumbnailFlag == false"
+                        type="button"
+                        title="Delete"
+                        mat-icon-button
+                        color="warn"
+                    >
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                    </button>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="username">Username</label>
+                    <input pInputText id="username" type="text" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="useremail">Useremail</label>
+                    <input pInputText id="useremail" type="text" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="password">Password</label>
+                    <input pInputText id="password" type="password" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="city">Date Of Birth </label>
+                    <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <label>Gender</label>
+                    <p-selectButton
+                        [options]="gender"
+                        [(ngModel)]="selectedValue"
+                        optionLabel="name"
+                    ></p-selectButton>
+                </div>
+            </div>
+            <div style="text-align: center">
+                <button
+                    icon="pi pi-check"
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Submit"
+                    class="p-button-raised"
+                ></button>
+            </div>
+        </form>
+    </div>
+</div>

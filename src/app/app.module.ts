@@ -19,6 +19,9 @@ import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { RouterLink } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -27,6 +30,7 @@ import { RouterLink } from '@angular/router';
         AppLayoutModule,
         ButtonModule,
         ToastModule,
+        BrowserAnimationsModule,
         // MessagesModule,
         // MessageModule,
     ],
@@ -40,7 +44,7 @@ import { RouterLink } from '@angular/router';
         PhotoService,
         ProductService,
         CommonService,
-        RouterLink
+        RouterLink,
         // MessageService,
         // ToastrMessageService,
     ],

@@ -12,6 +12,34 @@ import { Router } from '@angular/router';
             :host ::ng-deep .p-menubar-root-list {
                 flex-wrap: wrap;
             }
+            .custom-chip {
+                display: flex;
+                align-items: center;
+                background-color: rgb(249 103 95 / 24%);
+                border-radius: 19px;
+                padding: 4px 6px;
+                overflow: hidden;
+                transition: width 0.3s ease-in-out;
+                width: 40px;
+                cursor: pointer;
+            }
+            .custom-chip:hover {
+                width: auto;
+            }
+
+            .custom-chip p-avatar {
+                transition: transform 0.3s ease-in-out;
+            }
+            .chip-label {
+                opacity: 0;
+                white-space: nowrap;
+                transition: opacity 0.3s ease-in-out;
+                margin-left: 8px;
+            }
+
+            .custom-chip:hover .chip-label {
+                opacity: 1;
+            }
         `,
     ],
 })
@@ -21,6 +49,9 @@ export class AppTopBarComponent {
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
     @ViewChild('topbarmenu') menu!: ElementRef;
     menuItems: MenuItem[] = [];
+    hover: boolean = false;
+    userName: any;
+    avtarName: string;
 
     constructor(
         public layoutService: LayoutService,
@@ -32,6 +63,7 @@ export class AppTopBarComponent {
                 label: 'Account Info',
                 icon: 'pi pi-fw pi-user',
                 styleClass: 'custom-menu-item',
+                command: () => this.onUserProfile(),
             },
             {
                 separator: true,
@@ -43,6 +75,17 @@ export class AppTopBarComponent {
                 command: () => this.signOut(),
             },
         ];
+    }
+
+    ngOnInit(): void {
+        this.userName = JSON.parse(localStorage.getItem('AuthData'))?.userName;
+        this.avtarName = this.userName
+            ? this.userName.charAt(0).toUpperCase()
+            : '';
+    }
+
+    onUserProfile() {
+        this.router.navigate(['shopease/pages/user']);
     }
 
     signOut() {
