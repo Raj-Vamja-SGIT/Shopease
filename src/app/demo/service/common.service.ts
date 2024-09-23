@@ -11,6 +11,7 @@ export class CommonService {
         baseURL: CommonService.BaseURL,
         auth: {
             login: 'api/Auth/Login',
+            register:'api/Auth/Register'
         },
     };
 
@@ -22,6 +23,16 @@ export class CommonService {
         });
         const body = JSON.stringify({ EmailId, Password });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.login}`;
+        return this.http.post<any>(url, body, { headers });
+    }
+
+    register(user:any): Observable<any> {
+        debugger
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const body = JSON.stringify(user);
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.register}`;
         return this.http.post<any>(url, body, { headers });
     }
 }

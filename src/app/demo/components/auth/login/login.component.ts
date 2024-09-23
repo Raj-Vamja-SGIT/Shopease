@@ -64,7 +64,7 @@ export class LoginComponent {
                         this.router.navigate(['shopease/dashboard']);
                     }, 1200);
                 } else {
-                    this.toastr.error(
+                    this.toastr.error(      
                         'Error!',
                         'Something went wrong, please try again later.'
                     );
