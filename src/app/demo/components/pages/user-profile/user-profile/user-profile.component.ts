@@ -1,4 +1,7 @@
+import { UserProfile } from './../../../common/models/model';
+import { EncryptionService } from './../../../../service/encryption.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { CommonService } from 'src/app/demo/service/common.service';
 import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
 
 @Component({
@@ -8,8 +11,8 @@ import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
 })
 export class UserProfileComponent {
     @ViewChild('thumbnailInput') thumbnailInput: ElementRef;
+    isLoading: boolean = false;
     gender: any[] = [];
-    selectedValue: string = '';
     thumbnailPhoto: any;
     defaultImg: boolean = false;
     thumbnailName: any;
@@ -19,13 +22,30 @@ export class UserProfileComponent {
     thumbnailFile: string = '';
     thumbnailFlag = false;
     selectedThumbnailAttachmentName: string;
+    userId: any;
 
-    constructor(private toastr: ToastrMessageService) {}
+    UserProfile: UserProfile = {
+        UserId: '',
+        UserName: '',
+        UserEmail: '',
+        Password: '',
+        DOB: '',
+        Gender: '',
+    };
+
+    constructor(
+        private toastr: ToastrMessageService,
+        private service: CommonService,
+        private encryptionService: EncryptionService
+    ) {}
     ngOnInit(): void {
         this.gender = [
             { name: 'Male', value: 'Male' },
             { name: 'Female', value: 'Female' },
         ];
+        this.userId =
+            this.encryptionService.getDecryptedData('authData')?.userId;
+        this.getUserProfile();
     }
 
     thumbnailAttachFileChanged(event: any) {
@@ -57,7 +77,7 @@ export class UserProfileComponent {
                 this.selectedThumbnailAttachmentName = this.thumbnailFile;
                 this.thumbnailFlag = true;
                 this.deleteThumbnailFlag = false;
-                this.toastr.info('Info', 'Image uploaded successfully')
+                this.toastr.info('Info', 'Image uploaded successfully');
             };
 
             reader.readAsDataURL(event.target.files[0]);
@@ -82,7 +102,81 @@ export class UserProfileComponent {
         document.getElementById(pretext).click();
     }
 
-    onSave(){
-        
+    getUserProfile() {
+        this.isLoading = true;
+        this.service.getUserProfileDetails(this.userId).subscribe(
+            (response) => {
+                if (response.success) {
+                    const userData = response.data;
+                    const {
+                        userId,
+                        userName,
+                        userEmail,
+                        password,
+                        dob,
+                        gender,
+                    } = userData;
+                    this.UserProfile = {
+                        UserId: userId,
+                        UserName: userName,
+                        UserEmail: userEmail,
+                        Password: password,
+                        DOB: dob ? new Date(dob) : null,
+                        Gender: gender,
+                    };
+                    this.isLoading = false;
+                } else {
+                    this.toastr.error(
+                        'Error!',
+                        'Something went wrong, please try again later.'
+                    );
+                    this.isLoading = false;
+                }
+            },
+            (error) => {
+                this.toastr.error(
+                    'Error!',
+                    'There is an error occured while fetching user profile details.'
+                );
+                this.isLoading = false;
+            }
+        );
+    }
+
+    onSubmit(userProfileForm: any) {
+        this.isLoading = true;
+        this.UserProfile.UserId = this.userId;
+        this.UserProfile.UserName = userProfileForm.form.value.userName;
+        this.UserProfile.UserEmail = userProfileForm.form.value.userEmail;
+        this.UserProfile.Password = userProfileForm.form.value.password;
+        this.UserProfile.Gender = userProfileForm.form.value.gender;
+
+        let date = userProfileForm.form.value.dob;
+        date.setHours(0);
+        date.setHours(20);
+        date = new Date(date);
+
+        this.UserProfile.DOB = date.toISOString();
+        setTimeout(() => {
+            this.service.updateUserProfile(this.UserProfile).subscribe(
+                (response) => {
+                    if (response.success) {
+                        this.toastr.success('Success!', response.message);
+                        this.isLoading = false;
+                        this.getUserProfile();
+                    } else {
+                        this.toastr.error('Error!', response.message);
+                        this.isLoading = false;
+                    }
+                },
+                (error) => {
+                    this.toastr.error(
+                        'Error!',
+                        'There is an error while updating the user profile!'
+                    );
+                    this.isLoading = false;
+                }
+            );
+        }, 1000);
     }
 }

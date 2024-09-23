@@ -17,6 +17,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { LoaderComponent } from '../../common/loader/loader/loader.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { MatInputModule } from '@angular/material/input';
         MatCheckboxModule,
         MatIconModule,
         MatButtonModule,
-        MatInputModule
+        MatInputModule,
+        LoaderComponent
     ],
     declarations: [UserProfileComponent],
 })

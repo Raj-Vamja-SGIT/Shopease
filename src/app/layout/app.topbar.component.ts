@@ -1,3 +1,4 @@
+import { EncryptionService } from './../demo/service/encryption.service';
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from './service/app.layout.service';
@@ -56,7 +57,8 @@ export class AppTopBarComponent {
     constructor(
         public layoutService: LayoutService,
         public toastr: ToastrMessageService,
-        public router: Router
+        public router: Router,
+        public encryptionService: EncryptionService
     ) {
         this.menuItems = [
             {
@@ -78,7 +80,9 @@ export class AppTopBarComponent {
     }
 
     ngOnInit(): void {
-        this.userName = JSON.parse(localStorage.getItem('AuthData'))?.userName;
+        // this.userName = JSON.parse(localStorage.getItem('AuthData'))?.userName;
+        this.userName =
+            this.encryptionService.getDecryptedData('authData')?.userName;
         this.avtarName = this.userName
             ? this.userName.charAt(0).toUpperCase()
             : '';
@@ -89,7 +93,7 @@ export class AppTopBarComponent {
     }
 
     signOut() {
-        localStorage.removeItem('AuthData');
+        this.encryptionService.clearData('authData');
         this.toastr.success('Success', 'User logged out successfully.');
         this.router.navigate(['auth/login']);
     }
