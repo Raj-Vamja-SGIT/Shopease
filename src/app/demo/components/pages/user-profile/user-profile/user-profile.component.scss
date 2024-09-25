@@ -114,7 +114,31 @@
     text-wrap: wrap !important;
 }
 .error-messages {
-    color: red;
+    color: #f44336;
     font-size: 0.9em;
     margin-top: 3px;
 }
+.profile-img {
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  
+  .profile-image-container {
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  .fileuploader {
+    display: none;
+  }
+  
+  .spn_val {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    color: #666;
+  }
+  

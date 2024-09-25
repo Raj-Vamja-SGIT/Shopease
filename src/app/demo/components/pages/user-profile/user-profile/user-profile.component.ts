@@ -3,6 +3,7 @@ import { EncryptionService } from './../../../../service/encryption.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/demo/service/common.service';
 import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-user-profile',
@@ -23,6 +24,7 @@ export class UserProfileComponent {
     thumbnailFlag = false;
     selectedThumbnailAttachmentName: string;
     userId: any;
+    baseUrl: any = environment.avatarUrl;
 
     UserProfile: UserProfile = {
         UserId: '',
@@ -31,6 +33,8 @@ export class UserProfileComponent {
         Password: '',
         DOB: '',
         Gender: '',
+        AvatarFile: null,
+        Avatar: '',
     };
 
     constructor(
@@ -62,7 +66,7 @@ export class UserProfileComponent {
             }
 
             this.attachThumbanilFile = event.target.files[0];
-            this.thumbnailFile = event.target.files[0].name;
+            this.thumbnailFile = event.target.files[0];
 
             const reader = new FileReader();
 
@@ -115,6 +119,7 @@ export class UserProfileComponent {
                         password,
                         dob,
                         gender,
+                        avatar,
                     } = userData;
                     this.UserProfile = {
                         UserId: userId,
@@ -123,6 +128,7 @@ export class UserProfileComponent {
                         Password: password,
                         DOB: dob ? new Date(dob) : null,
                         Gender: gender,
+                        Avatar: avatar,
                     };
                     this.isLoading = false;
                 } else {
@@ -145,20 +151,23 @@ export class UserProfileComponent {
 
     onSubmit(userProfileForm: any) {
         this.isLoading = true;
-        this.UserProfile.UserId = this.userId;
-        this.UserProfile.UserName = userProfileForm.form.value.userName;
-        this.UserProfile.UserEmail = userProfileForm.form.value.userEmail;
-        this.UserProfile.Password = userProfileForm.form.value.password;
-        this.UserProfile.Gender = userProfileForm.form.value.gender;
+        const formData = new FormData();
+        formData.append('UserId', this.userId.toString());
+        formData.append('UserName', userProfileForm.form.value.userName);
+        formData.append('UserEmail', userProfileForm.form.value.userEmail);
+        formData.append('Password', userProfileForm.form.value.password);
+        formData.append('Gender', userProfileForm.form.value.gender);
 
-        let date = userProfileForm.form.value.dob;
+        let date = new Date(userProfileForm.form.value.dob);
         date.setHours(0);
         date.setHours(20);
-        date = new Date(date);
+        formData.append('DOB', date.toISOString());
 
-        this.UserProfile.DOB = date.toISOString();
+        if (this.thumbnailFile) {
+            formData.append('AvatarFile', this.thumbnailFile);
+        }
         setTimeout(() => {
-            this.service.updateUserProfile(this.UserProfile).subscribe(
+            this.service.updateUserProfile(formData).subscribe(
                 (response) => {
                     if (response.success) {
                         this.toastr.success('Success!', response.message);

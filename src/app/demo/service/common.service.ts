@@ -43,17 +43,15 @@ export class CommonService {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
         });
-        const body = JSON.stringify({ userId });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.userProfile.getUserProfile}?userId=${userId}`;
         return this.http.get(url, { headers });
     }
 
-    updateUserProfile(user: any): Observable<any> {
+    updateUserProfile(formData: FormData): Observable<any> {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
         });
-        const body = JSON.stringify(user);
         const url = `${this.apiUrl.baseURL}${this.apiUrl.userProfile.updateUserProfile}`;
-        return this.http.post<any>(url, body, { headers });
+        return this.http.post<any>(url, formData);
     }
 }

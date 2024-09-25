@@ -11,4 +11,6 @@ export interface UserProfile {
     Password: string;
     DOB: any;
     Gender: string;
+    AvatarFile?: any;
+    Avatar?:''
 }

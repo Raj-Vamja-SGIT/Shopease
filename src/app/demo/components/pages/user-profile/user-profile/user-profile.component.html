@@ -4,65 +4,58 @@
         <h5>User Profile</h5>
         <form #userProfileForm="ngForm" (ngSubmit)="onSubmit(userProfileForm)">
             <div class="p-fluid p-formgrid grid mt-5">
-                <div class="field col-12 field col-12 md:col-6">
-                    <label>Upload Image</label><br />
-                    <img
-                        alt="Thumbnail Image"
-                        *ngIf="thumbnailPhoto"
-                        class="img-avatar"
-                        src="{{ thumbnailPhoto }}"
-                    />
-                    <img
-                        alt="Thumbnail Image"
-                        *ngIf="defaultImg"
-                        class="img-avatar"
-                        src="../../../../assets/img/Default_Img.png"
-                    />
-                    <div class="inputTypeFileContainer">
-                        <input
-                            #thumbnailInput
-                            id="thumbnailAttachment"
-                            class="fileuploader"
-                            type="file"
-                            name="myfile"
-                            (change)="thumbnailAttachFileChanged($event)"
-                            title="{{ thumbnailName }}"
-                            accept="image/png, image/gif, image/jpeg"
-                        />
-                        <span class="spn_val" id="val_thumbnailAttachment">{{
-                            thumbnailPhoto
-                        }}</span>
-                        <button
-                            pButton
-                            pRipple
-                            type="button"
-                            icon="pi pi-upload"
-                            class="p-button-rounded"
-                            style="
-                                float: inline-end;
-                                height: 23px;
-                                width: 25px;
-                                background-color: #f96e66;
-                            "
+                <div class="field col-12">
+                    <div class="profile-image-container">
+                        <div>Upload Image</div>
+                        <br />
+                        <img
+                            alt="Profile Image"
+                            *ngIf="thumbnailPhoto; else defaultImage"
+                            class="profile-img"
+                            [src]="thumbnailPhoto"
                             (click)="
                                 clickFileUploaderThumbnail(
                                     'thumbnailAttachment'
                                 )
                             "
+                        />
+                        <ng-template #defaultImage>
+                            <img
+                                alt="Default Image"
+                                class="profile-img"
+                                [src]="baseUrl + UserProfile.Avatar"
+                                (click)="
+                                    clickFileUploaderThumbnail(
+                                        'thumbnailAttachment'
+                                    )
+                                "
+                            />
+                        </ng-template>
+                        <input
+                            #thumbnailInput
+                            id="thumbnailAttachment"
+                            class="fileuploader"
+                            type="file"
+                            name="avatar"
+                            style="display: none"
+                            (change)="thumbnailAttachFileChanged($event)"
+                            accept="image/png, image/gif, image/jpeg"
+                            [(ngModel)]="UserProfile.AvatarFile"
+                        />
+                        <span class="spn_val" id="val_thumbnailAttachment">{{
+                            thumbnailPhoto || "No Image Selected"
+                        }}</span>
+                        <button
+                            *ngIf="thumbnailFlag"
+                            type="button"
+                            pButton
+                            pRipple
+                            icon="pi pi-trash"
+                            class="p-button-rounded"
+                            style="margin-top: 10px; background-color: #f96e66"
+                            (click)="deleteAttachFile()"
                         ></button>
                     </div>
-                </div>
-                <div class="field col-12 md:col-6">
-                    <button
-                        (click)="deleteAttachFile()"
-                        *ngIf="deleteThumbnailFlag == false"
-                        type="button"
-                        title="Delete"
-                        mat-icon-button
-                        color="warn"
-                    >
-                        <mat-icon aria-label="Delete">delete</mat-icon>
-                    </button>
                 </div>
                 <div class="field col-12 md:col-6">
                     <label htmlFor="username">Username</label>
