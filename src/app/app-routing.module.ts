@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
 import { LoginComponent } from './demo/components/auth/login/login.component';
 import { AppLayoutComponent } from './layout/app.layout.component';
+import { ForgotPasswordComponent } from './demo/components/auth/forgotpassword/forgot-password/forgot-password.component';
+import { ChangePasswordComponent } from './demo/components/auth/change-password/change-password/change-password.component';
 
 @NgModule({
     imports: [
@@ -49,6 +51,14 @@ import { AppLayoutComponent } from './layout/app.layout.component';
                                 ).then((m) => m.PagesModule),
                         },
                     ],
+                },
+                {
+                    path: 'forgotpassword',
+                    component:ForgotPasswordComponent
+                },
+                {
+                    path: 'changepassword',
+                    component:ChangePasswordComponent
                 },
                 { path: 'notfound', component: NotfoundComponent },
                 { path: '**', redirectTo: '/notfound' },

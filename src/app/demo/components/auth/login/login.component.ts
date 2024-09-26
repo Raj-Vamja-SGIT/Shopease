@@ -86,4 +86,8 @@ export class LoginComponent {
             }
         );
     }
+
+    OnclickForgotPassword(){
+        this.router.navigate(['forgotpassword']);
+        }
 }

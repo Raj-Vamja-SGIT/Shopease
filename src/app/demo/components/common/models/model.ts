@@ -14,3 +14,11 @@ export interface UserProfile {
     AvatarFile?: any;
     Avatar?:''
 }
+
+
+
+
+  export interface ForgotPasswordRequestModel {
+    Email: string;
+    ClientURL: string;
+  }

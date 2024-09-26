@@ -22,6 +22,8 @@ import { RouterLink } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -31,6 +33,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         ButtonModule,
         ToastModule,
         BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserModule
         // MessagesModule,
         // MessageModule,
     ],
