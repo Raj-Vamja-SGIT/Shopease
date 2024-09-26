@@ -7,6 +7,9 @@ import { RouterModule } from '@angular/router';
         { path: 'access', loadChildren: () => import('./access/access.module').then(m => m.AccessModule) },
         { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
         { path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterModule) },
+        { path: 'forgotpassword', loadChildren: () => import('./forgotpassword/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule) },
+        { path: 'changepassword', loadChildren: () => import('./change-password/change-password/change-password.module').then(m => m.ChangePasswordModule) },
+
         { path: '**', redirectTo: '/notfound' }
     ])],
     exports: [RouterModule]
