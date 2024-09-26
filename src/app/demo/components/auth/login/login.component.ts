@@ -55,6 +55,7 @@ export class LoginComponent {
                         userRole: response.data.userProfile.roleId,
                         userId: response.data.userProfile.userId,
                         userName: response.data.userProfile.userName,
+                        avatar: response.data.userProfile.avatar,
                     };
                     this.encryptionService.setEncryptedData(
                         'authData',
@@ -67,7 +68,7 @@ export class LoginComponent {
                     this.isLoading = true;
                     setTimeout(() => {
                         this.router.navigate(['shopease/dashboard']);
-                    }, 1200);
+                    }, 800);
                 } else {
                     this.toastr.error(
                         'Error!',

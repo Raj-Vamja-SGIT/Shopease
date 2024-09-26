@@ -4,6 +4,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/demo/service/common.service';
 import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
 import { environment } from 'src/environments/environment';
+import { UserService } from 'src/app/demo/service/user.service';
 
 @Component({
     selector: 'app-user-profile',
@@ -40,7 +41,8 @@ export class UserProfileComponent {
     constructor(
         private toastr: ToastrMessageService,
         private service: CommonService,
-        private encryptionService: EncryptionService
+        private encryptionService: EncryptionService,
+        private userService: UserService
     ) {}
     ngOnInit(): void {
         this.gender = [
@@ -98,7 +100,7 @@ export class UserProfileComponent {
         this.thumbnailFlag = false;
         this.thumbnailPhoto = '';
         this.deleteThumbnailFlag = true;
-        document.getElementById('thumbnailfile').style.background = '#3f51b5';
+        // document.getElementById('thumbnailfile').style.background = '#3f51b5';
         this.thumbnailSizeFlag = false;
     }
 
@@ -108,45 +110,48 @@ export class UserProfileComponent {
 
     getUserProfile() {
         this.isLoading = true;
-        this.service.getUserProfileDetails(this.userId).subscribe(
-            (response) => {
-                if (response.success) {
-                    const userData = response.data;
-                    const {
-                        userId,
-                        userName,
-                        userEmail,
-                        password,
-                        dob,
-                        gender,
-                        avatar,
-                    } = userData;
-                    this.UserProfile = {
-                        UserId: userId,
-                        UserName: userName,
-                        UserEmail: userEmail,
-                        Password: password,
-                        DOB: dob ? new Date(dob) : null,
-                        Gender: gender,
-                        Avatar: avatar,
-                    };
-                    this.isLoading = false;
-                } else {
+        setTimeout(() => {
+            this.service.getUserProfileDetails(this.userId).subscribe(
+                (response) => {
+                    if (response.success) {
+                        const userData = response.data;
+                        const {
+                            userId,
+                            userName,
+                            userEmail,
+                            password,
+                            dob,
+                            gender,
+                            avatar,
+                        } = userData;
+                        this.UserProfile = {
+                            UserId: userId,
+                            UserName: userName,
+                            UserEmail: userEmail,
+                            Password: password,
+                            DOB: dob ? new Date(dob) : null,
+                            Gender: gender,
+                            Avatar: avatar,
+                        };
+                        this.userService.updateAvatar(avatar);
+                        this.isLoading = false;
+                    } else {
+                        this.toastr.error(
+                            'Error!',
+                            'Something went wrong, please try again later.'
+                        );
+                        this.isLoading = false;
+                    }
+                },
+                (error) => {
                     this.toastr.error(
                         'Error!',
-                        'Something went wrong, please try again later.'
+                        'There is an error occured while fetching user profile details.'
                     );
                     this.isLoading = false;
                 }
-            },
-            (error) => {
-                this.toastr.error(
-                    'Error!',
-                    'There is an error occured while fetching user profile details.'
-                );
-                this.isLoading = false;
-            }
-        );
+            );
+        }, 1000);
     }
 
     onSubmit(userProfileForm: any) {
@@ -186,6 +191,6 @@ export class UserProfileComponent {
                     this.isLoading = false;
                 }
             );
-        }, 1000);
+        }, 900);
     }
 }

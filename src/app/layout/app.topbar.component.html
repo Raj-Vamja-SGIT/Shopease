@@ -56,17 +56,25 @@
                 (mouseleave)="hover = false"
                 (click)="menu.toggle($event)"
             >
-                <p-avatar
-                    [label]="avtarName"
-                    [style]="{
-                        'background-color': 'rgb(249 103 95 / 77%)',
-                        color: '#ffffff'
-                    }"
-                    shape="circle"
-                ></p-avatar>
-                <span class="chip-label" [ngClass]="{ expanded: hover }">{{
-                    userName
-                }}</span>
+                <ng-container *ngIf="avatar; else avatarImg">
+                    <img class="profile-img" [src]="baseUrl + avatar" />
+                </ng-container>
+                <ng-template #avatarImg>
+                    <p-avatar
+                        [label]="avatarName"
+                        [style]="{
+                            'background-color': 'rgb(249 103 95 / 77%)',
+                            color: '#ffffff'
+                        }"
+                        shape="circle"
+                    ></p-avatar>
+                </ng-template>
+
+                <span
+                    class="chip-label avatar"
+                    [ngClass]="{ expanded: hover }"
+                    >{{ userName }}</span
+                >
             </div>
             <p-menu #menu [popup]="true" [model]="menuItems" class=""></p-menu>
             <!-- <button

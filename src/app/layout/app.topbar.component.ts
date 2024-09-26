@@ -1,9 +1,12 @@
+import { environment } from 'src/environments/environment';
 import { EncryptionService } from './../demo/service/encryption.service';
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from './service/app.layout.service';
 import { ToastrMessageService } from '../demo/service/toastr.service';
 import { Router } from '@angular/router';
+import { UserService } from '../demo/service/user.service';
+import { CommonService } from '../demo/service/common.service';
 
 @Component({
     selector: 'app-topbar',
@@ -24,7 +27,7 @@ import { Router } from '@angular/router';
                 width: 40px;
                 cursor: pointer;
             }
-            .custom-chip:hover {
+            .custom-chip {
                 width: auto;
             }
 
@@ -32,14 +35,28 @@ import { Router } from '@angular/router';
                 transition: transform 0.3s ease-in-out;
             }
             .chip-label {
-                opacity: 0;
                 white-space: nowrap;
                 transition: opacity 0.3s ease-in-out;
                 margin-left: 8px;
+                margin-right: 4px;
             }
-
+            .avatar:hover {
+                color: rgba(249, 103, 95, 0.77);
+            }
             .custom-chip:hover .chip-label {
                 opacity: 1;
+            }
+            .profile-img {
+                height: 2rem;
+                width: 2rem;
+                border-radius: 50%;
+                object-fit: cover;
+                cursor: pointer;
+            }
+
+            .profile-image-container {
+                text-align: center;
+                margin: 10px 0;
             }
         `,
     ],
@@ -52,14 +69,31 @@ export class AppTopBarComponent {
     menuItems: MenuItem[] = [];
     hover: boolean = false;
     userName: any;
-    avtarName: string;
+    avatarName: string;
+    avatar: any;
+    baseUrl: any = environment.avatarUrl;
+    subValue: any;
+    userId: any;
 
     constructor(
         public layoutService: LayoutService,
         public toastr: ToastrMessageService,
         public router: Router,
-        public encryptionService: EncryptionService
+        public encryptionService: EncryptionService,
+        public userService: UserService,
+        private service: CommonService
     ) {
+        this.userId =
+            this.encryptionService.getDecryptedData('authData')?.userId;
+        this.service.getUserProfileDetails(this.userId).subscribe((data) => {
+            if (data.success) {
+                this.userService.updateAvatar(data.data.avatar)
+            }
+        });
+
+        userService.avatar$.subscribe((subValue) => {
+            this.avatar = subValue;
+        });
         this.menuItems = [
             {
                 label: 'Account Info',
@@ -80,10 +114,9 @@ export class AppTopBarComponent {
     }
 
     ngOnInit(): void {
-        // this.userName = JSON.parse(localStorage.getItem('AuthData'))?.userName;
         this.userName =
             this.encryptionService.getDecryptedData('authData')?.userName;
-        this.avtarName = this.userName
+        this.avatarName = this.userName
             ? this.userName.charAt(0).toUpperCase()
             : '';
     }
@@ -96,5 +129,6 @@ export class AppTopBarComponent {
         this.encryptionService.clearData('authData');
         this.toastr.success('Success', 'User logged out successfully.');
         this.router.navigate(['auth/login']);
+        this.userService.updateAvatar('');
     }
 }

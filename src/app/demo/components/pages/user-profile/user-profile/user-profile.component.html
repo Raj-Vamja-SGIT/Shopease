@@ -23,7 +23,7 @@
                             <img
                                 alt="Default Image"
                                 class="profile-img"
-                                [src]="baseUrl + UserProfile.Avatar"
+                                [src]="UserProfile.Avatar ? (baseUrl + UserProfile.Avatar) : '../../../../assets/demo/images/avatar/3d-avatar.jpg'"
                                 (click)="
                                     clickFileUploaderThumbnail(
                                         'thumbnailAttachment'
@@ -46,13 +46,12 @@
                             thumbnailPhoto || "No Image Selected"
                         }}</span>
                         <button
-                            *ngIf="thumbnailFlag"
+                            *ngIf="thumbnailFlag && (!UserProfile.Avatar)"
                             type="button"
                             pButton
                             pRipple
                             icon="pi pi-trash"
                             class="p-button-rounded"
-                            style="margin-top: 10px; background-color: #f96e66"
                             (click)="deleteAttachFile()"
                         ></button>
                     </div>

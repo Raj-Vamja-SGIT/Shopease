@@ -26,6 +26,7 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { ChipModule } from 'primeng/chip';
 import { AvatarModule } from 'primeng/avatar';
+import { LoaderComponent } from "../demo/components/common/loader/loader/loader.component";
 
 @NgModule({
     declarations: [
@@ -37,26 +38,27 @@ import { AvatarModule } from 'primeng/avatar';
         AppLayoutComponent,
     ],
     imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        InputTextModule,
-        SidebarModule,
-        BadgeModule,
-        RadioButtonModule,
-        InputSwitchModule,
-        RippleModule,
-        RouterModule,
-        AppConfigModule,
-        TooltipModule,
-        MenuModule,
-        ToastModule,
-        MessagesModule,
-        MessageModule,
-        ChipModule,
-        AvatarModule,
-    ],
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    InputTextModule,
+    SidebarModule,
+    BadgeModule,
+    RadioButtonModule,
+    InputSwitchModule,
+    RippleModule,
+    RouterModule,
+    AppConfigModule,
+    TooltipModule,
+    MenuModule,
+    ToastModule,
+    MessagesModule,
+    MessageModule,
+    ChipModule,
+    AvatarModule,
+    LoaderComponent
+],
     exports: [
         AppLayoutComponent,
         AppMenuitemComponent,
