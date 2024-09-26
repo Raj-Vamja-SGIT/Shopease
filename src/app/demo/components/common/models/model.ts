@@ -3,3 +3,10 @@ export interface User {
     UserEmail: string;
     Password: string;
   }
+
+
+
+  export interface ForgotPasswordRequestModel {
+    Email: string;
+    ClientURL: string;
+  }

@@ -19,6 +19,8 @@ import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { RouterLink } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -27,6 +29,9 @@ import { RouterLink } from '@angular/router';
         AppLayoutModule,
         ButtonModule,
         ToastModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserModule
         // MessagesModule,
         // MessageModule,
     ],
