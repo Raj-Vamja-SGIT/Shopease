@@ -32,9 +32,13 @@ export class RegisterComponent {
         private router: Router
     ) {}
 
-    RegisterUser(registerForm: any) {
+    onRegister(registerForm: any) {
         this.loading = true;
-
+        if (!registerForm.valid) {
+            this.toastr.error('Error!', 'Please enter appropriate details!');
+            this.loading = false;
+            return;
+        }
         this.User.UserName = registerForm.form.value.UserName;
         this.User.UserEmail = registerForm.form.value.UserEmail;
         this.User.Password = registerForm.form.value.Password;
@@ -46,8 +50,7 @@ export class RegisterComponent {
                         'Success',
                         'User Register successfully'
                     );
-                    this.loading = true;
-
+                    this.loading = false;
                     setTimeout(() => {
                         this.router.navigate(['auth/login']);
                     }, 1200);
@@ -64,6 +67,7 @@ export class RegisterComponent {
                     'Error!',
                     'Username ,Email or  password are incorrcet.'
                 );
+                this.loading = false;
             }
         );
     }

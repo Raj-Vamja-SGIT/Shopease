@@ -3,7 +3,6 @@ export interface User {
     UserEmail: string;
     Password: string;
 }
-
 export interface UserProfile {
     UserId: any;
     UserName: string;
@@ -14,10 +13,6 @@ export interface UserProfile {
     AvatarFile?: any;
     Avatar?:''
 }
-
-
-
-
   export interface ForgotPasswordRequestModel {
     Email: string;
     ClientURL: string;

@@ -98,8 +98,4 @@ export class LoginComponent {
             }
         );
     }
-
-    OnclickForgotPassword() {
-        this.router.navigate(['forgot-password']);
-    }
 }

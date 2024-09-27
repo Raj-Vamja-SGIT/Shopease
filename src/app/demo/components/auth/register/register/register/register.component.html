@@ -1,10 +1,5 @@
-<p-toast
-    [showTransformOptions]="'translateY(100%)'"
-    [hideTransitionOptions]="'700ms'"
-    [showTransitionOptions]="'700ms'"
-    [showTransformOptions]="'translateX(100%)'"
-/>
-
+<p-toast />
+<app-loader *ngIf="loading"></app-loader>
 <div
     class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
 >
@@ -40,56 +35,101 @@
                     <span class="text-600 font-medium">Let's get started</span>
                 </div>
 
-                <form #registerForm="ngForm" (ngSubmit)="RegisterUser(registerForm)">
+                <form
+                    #registerForm="ngForm"
+                    (ngSubmit)="onRegister(registerForm)"
+                >
                     <div>
-                        <label
-                            for="email1"
-                            class="block text-900 text-xl font-medium mb-2"
-                            >Username</label
-                        >
-                        <input
-                            [(ngModel)]="UserName"
-                            id="UserName"
-                            type="text"
-                            placeholder="Username"
-                            pInputText
-                            class="w-full md:w-30rem mb-5"
-                            style="padding: 1rem"
-                            name="UserName"
-                        />
-
-                        <label
-                            for="UserEmail"
-                            class="block text-900 text-xl font-medium mb-2"
-                            >Email</label
-                        >
-                        <input
-                            id="email1"
-                            type="text"
-                            [(ngModel)]="UserEmail"
-                            placeholder="Email address"
-                            pInputText
-                            class="w-full md:w-30rem mb-5"
-                            style="padding: 1rem"
-                            name="UserEmail"
-                        />
-
-                        <label
-                            for="password1"
-                            class="block text-900 font-medium text-xl mb-2"
-                            >Password</label
-                        >
-                        <p-password
-                            id="password1"
-                            [(ngModel)]="Password"
-                            [toggleMask]="true"
-                            placeholder="Password"
-                            styleClass="mb-5"
-                            inputStyleClass="w-full p-3 md:w-30rem"
-                            name="Password"
-                        ></p-password>
+                        <div>
+                            <label
+                                for="email1"
+                                class="block text-900 text-xl font-medium mb-2"
+                                >Username</label
+                            >
+                            <input
+                                [(ngModel)]="UserName"
+                                id="UserName"
+                                type="text"
+                                placeholder="Username"
+                                pInputText
+                                class="w-full md:w-30rem"
+                                style="padding: 1rem"
+                                name="UserName"
+                                #userName="ngModel"
+                                required
+                            />
+                            <div
+                                *ngIf="
+                                    userName.invalid &&
+                                    (userName.dirty || userName.touched)
+                                "
+                                class="error-messages"
+                            >
+                                <div *ngIf="userName.errors?.required">
+                                    Please enter your name.
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                for="UserEmail"
+                                class="block text-900 text-xl font-medium mb-2 mt-5"
+                                >Email</label
+                            >
+                            <input
+                                type="text"
+                                [(ngModel)]="UserEmail"
+                                placeholder="Email address"
+                                pInputText
+                                class="w-full md:w-30rem"
+                                style="padding: 1rem"
+                                name="UserEmail"
+                                required
+                                #userEmail="ngModel"
+                            />
+                            <div
+                                *ngIf="
+                                    userEmail.invalid &&
+                                    (userEmail.dirty || userEmail.touched)
+                                "
+                                class="error-messages"
+                            >
+                                <div *ngIf="userEmail.errors?.required">
+                                    Please enter your email address.
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                for="password1"
+                                class="block text-900 font-medium text-xl mb-2 mt-5"
+                                >Password</label
+                            >
+                            <p-password
+                                id="password1"
+                                [(ngModel)]="Password"
+                                [toggleMask]="true"
+                                placeholder="Password"
+                                styleClass="mb-0"
+                                inputStyleClass="w-full md:w-30rem"
+                                name="Password"
+                                #password="ngModel"
+                                required
+                            ></p-password>
+                            <div
+                                *ngIf="
+                                    password.invalid &&
+                                    (password.dirty || password.touched)
+                                "
+                                class="error-messages"
+                            >
+                                <div *ngIf="password.errors?.required">
+                                    Please enter your password.
+                                </div>
+                            </div>
+                        </div>
                         <div
-                            class="flex align-items-center justify-content-between mb-4"
+                            class="flex align-items-center justify-content-between mt-5"
                         >
                             <div class="flex align-items-center">
                                 <p-checkbox
@@ -121,7 +161,7 @@
                             pRipple
                             type="submit"
                             label="Submit"
-                            class="w-full p-3 text-xl"
+                            class="w-full p-3 text-xl mt-5"
                         ></button>
                         <div
                             class="flex align-items-center justify-content-between my-3 gap-5"
@@ -133,6 +173,7 @@
                                 Already have an account?
                                 <b
                                     ><a
+                                        [routerLink]="['']"
                                         class="txt-hover cursor-pointer"
                                         style="color: #9aa9b3"
                                         >Sign In</a

@@ -11,6 +11,8 @@ import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
+import { RegisterRoutingModule } from './register-routing.module';
+import { LoaderComponent } from "../../common/loader/loader/loader.component";
 
 
 @NgModule({
@@ -22,13 +24,14 @@ import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
     ButtonModule,
     CheckboxModule,
     InputTextModule,
-    
+    RegisterRoutingModule,
     FormsModule,
     PasswordModule,
     MessageModule,
     MessagesModule,
     ToastModule,
-  ]
+    LoaderComponent
+]
 
 })
 export class RegisterModule { }

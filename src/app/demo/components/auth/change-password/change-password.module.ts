@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { PasswordModule } from 'primeng/password';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ChangePasswordRoutingModule } from './change-password-routing.module';
+import { ButtonModule } from 'primeng/button';
 
 
 
@@ -13,9 +14,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserModule,
     PasswordModule,
-
+    ChangePasswordRoutingModule,
+    ButtonModule
   ]
 })
 export class ChangePasswordModule { 

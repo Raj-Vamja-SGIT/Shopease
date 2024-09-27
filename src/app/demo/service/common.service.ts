@@ -12,6 +12,8 @@ export class CommonService {
         auth: {
             login: 'api/Auth/Login',
             register: 'api/Auth/Register',
+            forgotPassword: 'api/Auth/ForgotPassword',
+            changePassword: 'api/Auth/ChangePassword',
         },
         userProfile: {
             getUserProfile: 'api/UserProfile/GetUserProfile',
@@ -38,6 +40,24 @@ export class CommonService {
         const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.register}`;
         return this.http.post<any>(url, body, { headers });
     }
+
+    forgotPassword(email: string, clientUrl: string) : Observable<any>{
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const body = JSON.stringify({email, clientUrl});
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.forgotPassword}`;
+        return this.http.post<any>(url, body, { headers });
+      }
+
+      changePassword(pswd: string, confirmPswd: string) : Observable<any>{
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const body = JSON.stringify({pswd, confirmPswd});
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.changePassword}`;
+        return this.http.post<any>(url, body, { headers });
+      }
 
     getUserProfileDetails(userId: any): Observable<any> {
         const headers = new HttpHeaders({

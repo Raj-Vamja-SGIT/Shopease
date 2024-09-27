@@ -9,9 +9,9 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
-import { BrowserModule } from '@angular/platform-browser';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoaderComponent } from '../../common/loader/loader/loader.component';
+import { ForgotPasswordRoutingModule } from './forgot-password-routing.module';
 
 
 
@@ -30,7 +30,8 @@ import { LoaderComponent } from '../../common/loader/loader/loader.component';
     LoaderComponent,
     FormsModule,
     ReactiveFormsModule,
-    BrowserModule
+    FormsModule,
+    ForgotPasswordRoutingModule
   ]
 })
 export class ForgotPasswordModule { }
