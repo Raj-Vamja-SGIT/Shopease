@@ -53,7 +53,7 @@ import { ChangePasswordComponent } from './demo/components/auth/change-password/
                     ],
                 },
                 {
-                    path: 'forgotpassword',
+                    path: 'forgot-password',
                     component:ForgotPasswordComponent
                 },
                 {

@@ -24,7 +24,6 @@ export class ForgotpasswordService {
     ) {}
 
   forgotPassword(objData: any) : Observable<any>{
-    debugger
     this.storageService.clearLocalStorage()
     const headers = new HttpHeaders({
         'Content-Type': 'application/json',

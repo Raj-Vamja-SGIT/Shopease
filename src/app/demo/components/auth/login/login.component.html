@@ -43,38 +43,72 @@
                 </div>
 
                 <div>
-                    <label
-                        for="email1"
-                        class="block text-900 text-xl font-medium mb-2"
-                        >Email</label
-                    >
-                    <input
-                        id="email1"
-                        type="text"
-                        placeholder="Email address"
-                        [(ngModel)]="EmailId"
-                        pInputText
-                        class="w-full md:w-30rem mb-5"
-                        style="padding: 1rem"
-                    />
-
-                    <label
-                        for="password1"
-                        class="block text-900 font-medium text-xl mb-2"
-                        >Password</label
-                    >
-                    <p-password
-                        id="password1"
-                        [(ngModel)]="Password"
-                        [feedback]="false"
-                        [toggleMask]="true"
-                        placeholder="Password"
-                        styleClass="mb-5"
-                        inputStyleClass="w-full p-3 md:w-30rem"
-                    ></p-password>
-
+                    <div>
+                        <label
+                            for="email1"
+                            class="block text-900 text-xl font-medium mb-2"
+                            >Email</label
+                        >
+                        <input
+                            id="email1"
+                            type="text"
+                            name="emailId"
+                            placeholder="Email address"
+                            [(ngModel)]="EmailId"
+                            pInputText
+                            class="w-full md:w-30rem"
+                            style="padding: 1rem"
+                            #emailId="ngModel"
+                            required
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                        />
+                        <div
+                            *ngIf="
+                                emailId.invalid &&
+                                (emailId.dirty || emailId.touched)
+                            "
+                            class="error-messages"
+                        >
+                            <div *ngIf="emailId.errors?.required">
+                                User email is required.
+                            </div>
+                            <div *ngIf="emailId.errors?.pattern">
+                                Invalid user email format.
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label
+                            for="password1"
+                            class="block text-900 font-medium text-xl mb-2 mt-5"
+                            >Password</label
+                        >
+                        <p-password
+                            id="password"
+                            name="password"
+                            #password="ngModel"
+                            [(ngModel)]="Password"
+                            [feedback]="false"
+                            [toggleMask]="true"
+                            placeholder="Password"
+                            styleClass=""
+                            inputStyleClass="w-full p-3 md:w-30rem"
+                            required
+                        ></p-password>
+                        <div
+                            *ngIf="
+                                password.invalid &&
+                                (password.dirty || password.touched)
+                            "
+                            class="error-messages"
+                        >
+                            <div *ngIf="password.errors?.required">
+                                Please enter your password.
+                            </div>
+                        </div>
+                    </div>
                     <div
-                        class="flex align-items-center justify-content-between mb-5 gap-5"
+                        class="flex align-items-center justify-content-between my-5 gap-5"
                     >
                         <div class="flex align-items-center">
                             <p-checkbox
@@ -86,7 +120,8 @@
                         </div>
                         <a
                             class="font-medium no-underline ml-2 text-right cursor-pointer"
-                            style="color: #f84e45e3" (click)="OnclickForgotPassword()"
+                            style="color: #f84e45e3"
+                            (click)="OnclickForgotPassword()"
                             >Forgot password?</a
                         >
                     </div>

@@ -110,48 +110,46 @@ export class UserProfileComponent {
 
     getUserProfile() {
         this.isLoading = true;
-        setTimeout(() => {
-            this.service.getUserProfileDetails(this.userId).subscribe(
-                (response) => {
-                    if (response.success) {
-                        const userData = response.data;
-                        const {
-                            userId,
-                            userName,
-                            userEmail,
-                            password,
-                            dob,
-                            gender,
-                            avatar,
-                        } = userData;
-                        this.UserProfile = {
-                            UserId: userId,
-                            UserName: userName,
-                            UserEmail: userEmail,
-                            Password: password,
-                            DOB: dob ? new Date(dob) : null,
-                            Gender: gender,
-                            Avatar: avatar,
-                        };
-                        this.userService.updateAvatar(avatar);
-                        this.isLoading = false;
-                    } else {
-                        this.toastr.error(
-                            'Error!',
-                            'Something went wrong, please try again later.'
-                        );
-                        this.isLoading = false;
-                    }
-                },
-                (error) => {
+        this.service.getUserProfileDetails(this.userId).subscribe(
+            (response) => {
+                if (response.success) {
+                    const userData = response.data;
+                    const {
+                        userId,
+                        userName,
+                        userEmail,
+                        password,
+                        dob,
+                        gender,
+                        avatar,
+                    } = userData;
+                    this.UserProfile = {
+                        UserId: userId,
+                        UserName: userName,
+                        UserEmail: userEmail,
+                        Password: password,
+                        DOB: dob ? new Date(dob) : null,
+                        Gender: gender,
+                        Avatar: avatar,
+                    };
+                    this.userService.updateAvatar(avatar);
+                    this.isLoading = false;
+                } else {
                     this.toastr.error(
                         'Error!',
-                        'There is an error occured while fetching user profile details.'
+                        'Something went wrong, please try again later.'
                     );
                     this.isLoading = false;
                 }
-            );
-        }, 1000);
+            },
+            (error) => {
+                this.toastr.error(
+                    'Error!',
+                    'There is an error occured while fetching user profile details.'
+                );
+                this.isLoading = false;
+            }
+        );
     }
 
     onSubmit(userProfileForm: any) {

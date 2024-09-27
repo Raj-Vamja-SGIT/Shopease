@@ -9,9 +9,9 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
-import { LoaderComponent } from '../../../common/loader/loader/loader.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { ForgotPasswordComponent } from './forgot-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { LoaderComponent } from '../../common/loader/loader/loader.component';
 
 
 

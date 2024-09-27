@@ -21,9 +21,13 @@ import { EncryptionService } from 'src/app/demo/service/encryption.service';
                 color: #9aa9b3 !important;
                 text-decoration: none;
             }
-
             .txt-hover:hover {
                 color: #f96159 !important;
+            }
+            .error-messages {
+                color: #f44336;
+                font-size: 0.9em;
+                margin-top: 3px;
             }
         `,
     ],
@@ -47,6 +51,14 @@ export class LoginComponent {
 
     onLogin() {
         this.isLoading = true;
+        if (this.EmailId == '' || this.Password == '') {
+            this.toastr.error(
+                'Error!',
+                'Please enter your email and password correctly!'
+            );
+            this.isLoading = false;
+            return;
+        }
         this.service.login(this.EmailId, this.Password).subscribe(
             (response) => {
                 if (response.success) {
@@ -87,7 +99,7 @@ export class LoginComponent {
         );
     }
 
-    OnclickForgotPassword(){
-        this.router.navigate(['forgotpassword']);
-        }
+    OnclickForgotPassword() {
+        this.router.navigate(['forgot-password']);
+    }
 }

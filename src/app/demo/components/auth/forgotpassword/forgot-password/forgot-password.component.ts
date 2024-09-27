@@ -11,24 +11,6 @@ import { ForgotPasswordRequestModel } from '../../../common/models/model';
 
 @Component({
   selector: 'app-forgot-password',
-  styles: [
-    `
-        :host ::ng-deep .pi-eye,
-        :host ::ng-deep .pi-eye-slash {
-            transform: scale(1.6);
-            margin-right: 1rem;
-            color: var(--primary-color) !important;
-        }
-        .txt-hover {
-            color: #9aa9b3 !important;
-            text-decoration: none;
-        }
-
-        .txt-hover:hover {
-            color: #f96159 !important;
-        }
-    `,
-],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss'
 })
@@ -66,7 +48,6 @@ initForgotForm() {
 }
 
 forgotPassword() {
-  debugger
   if (this.forgotPasswordForm.valid) {
   
       this.ForgotPasswordModel.Email= this.forgotPasswordForm.value.email,
