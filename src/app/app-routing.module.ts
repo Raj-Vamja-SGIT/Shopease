@@ -22,6 +22,27 @@ import { ChangePasswordComponent } from './demo/components/auth/change-password/
                         //             './demo/components/dashboard/dashboard.module'
                         //         ).then((m) => m.DashboardModule),
                         // },
+                    ],
+                },
+                {
+                    path: 'auth',
+                    loadChildren: () =>
+                        import('./demo/components/auth/auth.module').then(
+                            (m) => m.AuthModule
+                        ),
+                },
+
+                {
+                    path: 'shopease',
+                    component: AppLayoutComponent,
+                    children: [
+                        {
+                            path: 'dashboard',
+                            loadChildren: () =>
+                                import(
+                                    './demo/components/dashboard/dashboard.module'
+                                ).then((m) => m.DashboardModule),
+                        },
                         {
                             path: 'pages',
                             loadChildren: () =>
@@ -32,27 +53,7 @@ import { ChangePasswordComponent } from './demo/components/auth/change-password/
                     ],
                 },
                 {
-                    path: 'auth',
-                    loadChildren: () =>
-                        import('./demo/components/auth/auth.module').then(
-                            (m) => m.AuthModule
-                        ),
-                },
-                {
-                    path: 'home',
-                    component: AppLayoutComponent,
-                    children: [
-                        {
-                            path: 'dashboard',
-                            loadChildren: () =>
-                                import(
-                                    './demo/components/dashboard/dashboard.module'
-                                ).then((m) => m.DashboardModule),
-                        },
-                    ],
-                },
-                {
-                    path: 'forgotpassword',
+                    path: 'forgot-password',
                     component:ForgotPasswordComponent
                 },
                 {

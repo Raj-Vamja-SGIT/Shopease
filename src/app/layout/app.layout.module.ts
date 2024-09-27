@@ -15,8 +15,8 @@ import { RouterModule } from '@angular/router';
 import { AppTopBarComponent } from './app.topbar.component';
 import { AppFooterComponent } from './app.footer.component';
 import { AppConfigModule } from './config/config.module';
-import { AppSidebarComponent } from "./app.sidebar.component";
-import { AppLayoutComponent } from "./app.layout.component";
+import { AppSidebarComponent } from './app.sidebar.component';
+import { AppLayoutComponent } from './app.layout.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenuModule } from 'primeng/menu';
 import { ToastrMessageService } from '../demo/service/toastr.service';
@@ -24,6 +24,9 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { ChipModule } from 'primeng/chip';
+import { AvatarModule } from 'primeng/avatar';
+import { LoaderComponent } from "../demo/components/common/loader/loader/loader.component";
 
 @NgModule({
     declarations: [
@@ -35,25 +38,36 @@ import { MessageModule } from 'primeng/message';
         AppLayoutComponent,
     ],
     imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        InputTextModule,
-        SidebarModule,
-        BadgeModule,
-        RadioButtonModule,
-        InputSwitchModule,
-        RippleModule,
-        RouterModule,
-        AppConfigModule,
-        TooltipModule,
-        MenuModule,
-        ToastModule,
-        MessagesModule,
-        MessageModule,
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    InputTextModule,
+    SidebarModule,
+    BadgeModule,
+    RadioButtonModule,
+    InputSwitchModule,
+    RippleModule,
+    RouterModule,
+    AppConfigModule,
+    TooltipModule,
+    MenuModule,
+    ToastModule,
+    MessagesModule,
+    MessageModule,
+    ChipModule,
+    AvatarModule,
+    LoaderComponent
+],
+    exports: [
+        AppLayoutComponent,
+        AppMenuitemComponent,
+        AppTopBarComponent,
+        AppFooterComponent,
+        AppMenuComponent,
+        AppSidebarComponent,
+        AppLayoutComponent,
     ],
-    exports: [AppLayoutComponent],
     providers: [MessageService, ToastrMessageService],
 })
-export class AppLayoutModule { }
+export class AppLayoutModule {}

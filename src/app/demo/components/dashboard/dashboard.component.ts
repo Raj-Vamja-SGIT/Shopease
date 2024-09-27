@@ -4,6 +4,7 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -15,6 +16,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartOptions: any;
     subscription!: Subscription;
     isLoading: boolean = false;
+    userId: any;
+    avatar: any | null;
+    baseUrl: any = environment.avatarUrl;
 
     constructor(
         private productService: ProductService,

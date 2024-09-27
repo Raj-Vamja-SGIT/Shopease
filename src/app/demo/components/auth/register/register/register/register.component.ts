@@ -42,8 +42,6 @@ export class RegisterComponent {
         this.commonservice.register(this.User).subscribe(
             (response) => {
                 if (response.success) {
-                    console.log('Register successful', response);
-                    console.log(this.User);
                     this.toastr.success(
                         'Success',
                         'User Register successfully'

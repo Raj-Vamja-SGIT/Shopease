@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { EncryptionService } from 'src/app/demo/service/encryption.service';
 
 @Component({
     selector: 'app-login',
@@ -20,9 +21,13 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
                 color: #9aa9b3 !important;
                 text-decoration: none;
             }
-
             .txt-hover:hover {
                 color: #f96159 !important;
+            }
+            .error-messages {
+                color: #f44336;
+                font-size: 0.9em;
+                margin-top: 3px;
             }
         `,
     ],
@@ -32,43 +37,56 @@ export class LoginComponent {
     valCheck: string[] = ['remember'];
     Password!: string;
     EmailId!: string;
-    loading: boolean = false;
+    isLoading: boolean = false;
 
     constructor(
         public layoutService: LayoutService,
         private service: CommonService,
         private toastr: ToastrMessageService,
-        private router: Router
+        private router: Router,
+        private encryptionService: EncryptionService
     ) {
         this.toastr.error('Error!', 'Username or password are incorrcet.');
     }
 
     onLogin() {
-        this.loading = true;
+        this.isLoading = true;
+        if (this.EmailId == '' || this.Password == '') {
+            this.toastr.error(
+                'Error!',
+                'Please enter your email and password correctly!'
+            );
+            this.isLoading = false;
+            return;
+        }
         this.service.login(this.EmailId, this.Password).subscribe(
             (response) => {
                 if (response.success) {
                     const authData = {
                         token: response.data.accessToken.token,
                         userRole: response.data.userProfile.roleId,
+                        userId: response.data.userProfile.userId,
+                        userName: response.data.userProfile.userName,
+                        avatar: response.data.userProfile.avatar,
                     };
-                    localStorage.setItem('AuthData', JSON.stringify(authData));
-
+                    this.encryptionService.setEncryptedData(
+                        'authData',
+                        authData
+                    );
                     this.toastr.success(
                         'Success',
                         `Account successfully logged in with ${response.data.userProfile.userName} .`
                     );
-                    this.loading = true;
+                    this.isLoading = true;
                     setTimeout(() => {
-                        
-                        this.router.navigate(['home/dashboard'], { replaceUrl: true });
-                    }, 1200);
+                        this.router.navigate(['shopease/dashboard']);
+                    }, 800);
                 } else {
-                    this.toastr.error(      
+                    this.toastr.error(
                         'Error!',
                         'Something went wrong, please try again later.'
                     );
-                    this.loading = false;
+                    this.isLoading = false;
                 }
             },
             (error) => {
@@ -76,12 +94,12 @@ export class LoginComponent {
                     'Error!',
                     'Username or password are incorrcet.'
                 );
-                this.loading = false;
+                this.isLoading = false;
             }
         );
     }
 
-    OnclickForgotPassword(){
-        this.router.navigate(['forgotpassword']);
-        }
+    OnclickForgotPassword() {
+        this.router.navigate(['forgot-password']);
+    }
 }

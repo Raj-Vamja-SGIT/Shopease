@@ -49,9 +49,35 @@
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button> -->
-        <div>
+        <div class="flex flex-wrap align-items-center">
+            <div
+                class="custom-chip"
+                (mouseenter)="hover = true"
+                (mouseleave)="hover = false"
+                (click)="menu.toggle($event)"
+            >
+                <ng-container *ngIf="avatar; else avatarImg">
+                    <img class="profile-img" [src]="baseUrl + avatar" />
+                </ng-container>
+                <ng-template #avatarImg>
+                    <p-avatar
+                        [label]="avatarName"
+                        [style]="{
+                            'background-color': 'rgb(249 103 95 / 77%)',
+                            color: '#ffffff'
+                        }"
+                        shape="circle"
+                    ></p-avatar>
+                </ng-template>
+
+                <span
+                    class="chip-label avatar"
+                    [ngClass]="{ expanded: hover }"
+                    >{{ userName }}</span
+                >
+            </div>
             <p-menu #menu [popup]="true" [model]="menuItems" class=""></p-menu>
-            <button
+            <!-- <button
                 class="p-link layout-topbar-button"
                 pButton
                 type="button"
@@ -63,7 +89,7 @@
             >
                 <i class="pi pi-cog"></i>
                 <span>Settings</span>
-            </button>
+            </button> -->
         </div>
     </div>
 </div>

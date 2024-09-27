@@ -11,7 +11,11 @@ export class CommonService {
         baseURL: CommonService.BaseURL,
         auth: {
             login: 'api/Auth/Login',
-            register:'api/Auth/Register'
+            register: 'api/Auth/Register',
+        },
+        userProfile: {
+            getUserProfile: 'api/UserProfile/GetUserProfile',
+            updateUserProfile: 'api/UserProfile/UpdateUserProfile',
         },
     };
 
@@ -26,13 +30,28 @@ export class CommonService {
         return this.http.post<any>(url, body, { headers });
     }
 
-    register(user:any): Observable<any> {
-        debugger
+    register(user: any): Observable<any> {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
         });
         const body = JSON.stringify(user);
         const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.register}`;
         return this.http.post<any>(url, body, { headers });
+    }
+
+    getUserProfileDetails(userId: any): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.userProfile.getUserProfile}?userId=${userId}`;
+        return this.http.get(url, { headers });
+    }
+
+    updateUserProfile(formData: FormData): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.userProfile.updateUserProfile}`;
+        return this.http.post<any>(url, formData);
     }
 }

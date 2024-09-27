@@ -1,0 +1,192 @@
+<app-loader *ngIf="isLoading"></app-loader>
+<div class="col-12">
+    <div class="card">
+        <h5>User Profile</h5>
+        <form #userProfileForm="ngForm" (ngSubmit)="onSubmit(userProfileForm)">
+            <div class="p-fluid p-formgrid grid mt-5">
+                <div class="field col-12">
+                    <div class="profile-image-container">
+                        <div>Upload Image</div>
+                        <br />
+                        <img
+                            alt="Profile Image"
+                            *ngIf="thumbnailPhoto; else defaultImage"
+                            class="profile-img"
+                            [src]="thumbnailPhoto"
+                            (click)="
+                                clickFileUploaderThumbnail(
+                                    'thumbnailAttachment'
+                                )
+                            "
+                        />
+                        <ng-template #defaultImage>
+                            <img
+                                alt="Default Image"
+                                class="profile-img"
+                                [src]="UserProfile.Avatar ? (baseUrl + UserProfile.Avatar) : '../../../../assets/demo/images/avatar/3d-avatar.jpg'"
+                                (click)="
+                                    clickFileUploaderThumbnail(
+                                        'thumbnailAttachment'
+                                    )
+                                "
+                            />
+                        </ng-template>
+                        <input
+                            #thumbnailInput
+                            id="thumbnailAttachment"
+                            class="fileuploader"
+                            type="file"
+                            name="avatar"
+                            style="display: none"
+                            (change)="thumbnailAttachFileChanged($event)"
+                            accept="image/png, image/gif, image/jpeg"
+                            [(ngModel)]="UserProfile.AvatarFile"
+                        />
+                        <span class="spn_val" id="val_thumbnailAttachment">{{
+                            thumbnailPhoto || "No Image Selected"
+                        }}</span>
+                        <button
+                            *ngIf="thumbnailFlag && (!UserProfile.Avatar)"
+                            type="button"
+                            pButton
+                            pRipple
+                            icon="pi pi-trash"
+                            class="p-button-rounded"
+                            (click)="deleteAttachFile()"
+                        ></button>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="username">Username</label>
+                    <input
+                        pInputText
+                        id="userName"
+                        [(ngModel)]="UserProfile.UserName"
+                        name="userName"
+                        type="text"
+                        required
+                        minlength="3"
+                        maxlength="30"
+                        #userName="ngModel"
+                        pTooltip="Enter your username"
+                        tooltipPosition="top"
+                    />
+                    <div
+                        *ngIf="
+                            userName.invalid &&
+                            (userName.dirty || userName.touched)
+                        "
+                        class="error-messages"
+                    >
+                        <div *ngIf="userName.errors?.required">
+                            Username is required.
+                        </div>
+                        <div *ngIf="userName.errors?.minlength">
+                            Username must be at least 3 characters long.
+                        </div>
+                        <div *ngIf="userName.errors?.maxlength">
+                            Username cannot be more than 30 characters long.
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="useremail">Useremail</label>
+                    <input
+                        pInputText
+                        id="userEmail"
+                        name="userEmail"
+                        [(ngModel)]="UserProfile.UserEmail"
+                        type="text"
+                        required
+                        email
+                        #userEmail="ngModel"
+                        pTooltip="Enter your email"
+                        tooltipPosition="top"
+                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                    />
+                    <div
+                        *ngIf="
+                            userEmail.invalid &&
+                            (userEmail.dirty || userEmail.touched)
+                        "
+                        class="error-messages"
+                    >
+                        <div *ngIf="userEmail.errors?.required">
+                            Email is required.
+                        </div>
+                        <div *ngIf="userEmail.errors?.pattern">
+                            Invalid email format.
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="password">Password</label>
+                    <input
+                        pInputText
+                        id="password"
+                        name="password"
+                        [(ngModel)]="UserProfile.Password"
+                        type="password"
+                        required
+                        minlength="6"
+                        #password="ngModel"
+                    />
+                    <div
+                        *ngIf="
+                            password.invalid &&
+                            (password.dirty || password.touched)
+                        "
+                        class="error-messages"
+                    >
+                        <div *ngIf="password.errors?.required">
+                            Password is required.
+                        </div>
+                        <div *ngIf="password.errors?.minlength">
+                            Password must be at least 6 characters long.
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="city">Date Of Birth </label>
+                    <p-calendar
+                        [showIcon]="true"
+                        name="dob"
+                        [(ngModel)]="UserProfile.DOB"
+                        inputId="icon"
+                        required
+                        #dob="ngModel"
+                    ></p-calendar>
+                    <div
+                        *ngIf="dob.invalid && (dob.dirty || dob.touched)"
+                        class="error-messages"
+                    >
+                        <div *ngIf="dob.errors?.required">
+                            Date of Birth is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <label>Gender</label>
+                    <p-selectButton
+                        [options]="gender"
+                        name="gender"
+                        [(ngModel)]="UserProfile.Gender"
+                        optionLabel="name"
+                        optionValue="value"
+                    ></p-selectButton>
+                </div>
+            </div>
+            <div style="text-align: center">
+                <button
+                    icon="pi pi-check"
+                    pButton
+                    pRipple
+                    type="submit"
+                    label="Submit"
+                    class="p-button-raised"
+                    [disabled]="userProfileForm.invalid"
+                ></button>
+            </div>
+        </form>
+    </div>
+</div>

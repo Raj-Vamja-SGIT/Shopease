@@ -19,6 +19,9 @@ import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { RouterLink } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -29,6 +32,7 @@ import { BrowserModule } from '@angular/platform-browser';
         AppLayoutModule,
         ButtonModule,
         ToastModule,
+        BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
         BrowserModule
@@ -45,7 +49,7 @@ import { BrowserModule } from '@angular/platform-browser';
         PhotoService,
         ProductService,
         CommonService,
-        RouterLink
+        RouterLink,
         // MessageService,
         // ToastrMessageService,
     ],
