@@ -97,27 +97,12 @@
                         name="userEmail"
                         [(ngModel)]="UserProfile.UserEmail"
                         type="text"
-                        required
                         email
                         #userEmail="ngModel"
                         pTooltip="Enter your email"
                         tooltipPosition="top"
-                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                        readonly
                     />
-                    <div
-                        *ngIf="
-                            userEmail.invalid &&
-                            (userEmail.dirty || userEmail.touched)
-                        "
-                        class="error-messages"
-                    >
-                        <div *ngIf="userEmail.errors?.required">
-                            Email is required.
-                        </div>
-                        <div *ngIf="userEmail.errors?.pattern">
-                            Invalid email format.
-                        </div>
-                    </div>
                 </div>
                 <div class="field col-12 md:col-6">
                     <label htmlFor="password">Password</label>

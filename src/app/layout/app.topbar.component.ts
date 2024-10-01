@@ -87,7 +87,8 @@ export class AppTopBarComponent {
             this.encryptionService.getDecryptedData('authData')?.userId;
         this.service.getUserProfileDetails(this.userId).subscribe((data) => {
             if (data.success) {
-                this.userService.updateAvatar(data.data.avatar)
+                this.userService.updateAvatar(data.data.avatar);
+                this.userService.getUserId(data.data.userId);
             }
         });
 
@@ -130,5 +131,6 @@ export class AppTopBarComponent {
         this.toastr.success('Success', 'User logged out successfully.');
         this.router.navigate(['auth/login']);
         this.userService.updateAvatar('');
+        this.userService.getUserId('');
     }
 }

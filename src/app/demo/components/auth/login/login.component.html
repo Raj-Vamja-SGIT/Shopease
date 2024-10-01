@@ -1,10 +1,5 @@
 <app-loader *ngIf="isLoading"></app-loader>
-<p-toast
-    [showTransformOptions]="'translateY(100%)'"
-    [hideTransitionOptions]="'700ms'"
-    [showTransitionOptions]="'700ms'"
-    [showTransformOptions]="'translateX(100%)'"
-/>
+<p-toast />
 <div
     class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
 >
@@ -125,6 +120,7 @@
                             >Forgot password?</a
                         >
                     </div>
+
                     <button
                         style="background: #f84e45e3; border-color: #f84e45e3"
                         pButton
@@ -133,6 +129,19 @@
                         class="w-full p-3 text-xl"
                         (click)="onLogin()"
                     ></button>
+
+                    <div>
+                        <div class="divider-or">
+                            <hr />
+                            <span>OR</span>
+                            <hr />
+                        </div>
+                        <button
+                            id="google"
+                            class="google-signin-button"
+                        ></button>
+                    </div>
+
                     <div
                         class="flex align-items-center justify-content-between my-3 gap-5"
                     >

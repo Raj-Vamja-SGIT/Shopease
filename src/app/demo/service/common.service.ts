@@ -11,9 +11,10 @@ export class CommonService {
         baseURL: CommonService.BaseURL,
         auth: {
             login: 'api/Auth/Login',
+            loginWithGoogle: 'api/Auth/LoginWithGoogle',
             register: 'api/Auth/Register',
             forgotPassword: 'api/Auth/ForgotPassword',
-            changePassword: 'api/Auth/ChangePassword',
+            changePassword: 'api/Auth/ChangeUserPassword',
         },
         userProfile: {
             getUserProfile: 'api/UserProfile/GetUserProfile',
@@ -29,6 +30,15 @@ export class CommonService {
         });
         const body = JSON.stringify({ EmailId, Password });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.login}`;
+        return this.http.post<any>(url, body, { headers });
+    }
+
+    loginWithGoogle(idToken: string): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const body = JSON.stringify(idToken);
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.loginWithGoogle}`;
         return this.http.post<any>(url, body, { headers });
     }
 
@@ -50,11 +60,11 @@ export class CommonService {
         return this.http.post<any>(url, body, { headers });
       }
 
-      changePassword(pswd: string, confirmPswd: string) : Observable<any>{
+      changePassword(passwordDetails: any) : Observable<any>{
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
         });
-        const body = JSON.stringify({pswd, confirmPswd});
+        const body = JSON.stringify(passwordDetails);
         const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.changePassword}`;
         return this.http.post<any>(url, body, { headers });
       }

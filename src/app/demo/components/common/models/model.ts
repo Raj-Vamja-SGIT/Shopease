@@ -11,9 +11,19 @@ export interface UserProfile {
     DOB: any;
     Gender: string;
     AvatarFile?: any;
-    Avatar?:''
+    Avatar?: '';
 }
-  export interface ForgotPasswordRequestModel {
+export interface ForgotPasswordRequestModel {
     Email: string;
     ClientURL: string;
-  }
+}
+
+export interface ChangePasswordRequestModel {
+    UserEmail: string;
+    Password: string;
+    ConfirmPassword: string;
+}
+
+export interface ExternalAuth {
+    credential: string;
+}
