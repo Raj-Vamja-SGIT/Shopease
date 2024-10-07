@@ -11,6 +11,11 @@ import { RouterModule } from '@angular/router';
                         (m) => m.UserProfileModule
                     ),
             },
+            {
+                path: 'users',
+                loadChildren: () =>
+                    import('./users/users.module').then((m) => m.UsersModule),
+            },
             { path: '**', redirectTo: '/notfound' },
         ]),
     ],

@@ -52,6 +52,8 @@ export class UserProfileComponent {
         this.userId =
             this.encryptionService.getDecryptedData('authData')?.userId;
         this.getUserProfile();
+        console.log(this.encryptionService.getDecryptedData('authData'));
+        
     }
 
     thumbnailAttachFileChanged(event: any) {

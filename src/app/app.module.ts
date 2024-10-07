@@ -13,14 +13,9 @@ import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import { ButtonModule } from 'primeng/button';
 import { CommonService } from './demo/service/common.service';
-import { MessageService } from 'primeng/api';
-import { ToastrMessageService } from './demo/service/toastr.service';
 import { ToastModule } from 'primeng/toast';
-import { MessagesModule } from 'primeng/messages';
-import { MessageModule } from 'primeng/message';
 import { RouterLink } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -35,9 +30,7 @@ import { BrowserModule } from '@angular/platform-browser';
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
-        BrowserModule
-        // MessagesModule,
-        // MessageModule,
+        BrowserModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
@@ -50,8 +43,6 @@ import { BrowserModule } from '@angular/platform-browser';
         ProductService,
         CommonService,
         RouterLink,
-        // MessageService,
-        // ToastrMessageService,
     ],
     bootstrap: [AppComponent],
 })

@@ -42,33 +42,31 @@ export class RegisterComponent {
         this.User.UserName = registerForm.form.value.UserName;
         this.User.UserEmail = registerForm.form.value.UserEmail;
         this.User.Password = registerForm.form.value.Password;
-
-        this.commonservice.register(this.User).subscribe(
-            (response) => {
-                if (response.success) {
-                    this.toastr.success(
-                        'Success',
-                        'User Register successfully'
-                    );
-                    this.loading = false;
-                    setTimeout(() => {
-                        this.router.navigate(['auth/login']);
-                    }, 1200);
-                } else {
+        setTimeout(() => {
+            this.commonservice.register(this.User).subscribe(
+                (response) => {
+                    if (response.success) {
+                        this.toastr.success(
+                            'Success',
+                            'User Register successfully'
+                        );
+                        this.loading = false;
+                        setTimeout(() => {
+                            this.router.navigate(['auth/login']);
+                        }, 1200);
+                    } else {
+                        this.toastr.error('Error!', response.message);
+                        this.loading = false;
+                    }
+                },
+                (error) => {
                     this.toastr.error(
                         'Error!',
-                        'Something went wrong, please try again later.'
+                        'Username ,Email or  password are incorrcet.'
                     );
                     this.loading = false;
                 }
-            },
-            (error) => {
-                this.toastr.error(
-                    'Error!',
-                    'Username ,Email or  password are incorrcet.'
-                );
-                this.loading = false;
-            }
-        );
+            );
+        }, 500);
     }
 }

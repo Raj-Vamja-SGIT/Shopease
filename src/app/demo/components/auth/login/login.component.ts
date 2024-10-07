@@ -6,7 +6,6 @@ import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { EncryptionService } from 'src/app/demo/service/encryption.service';
 import { environment } from 'src/environments/environment';
-import { PromptMomentNotification } from 'google-one-tap';
 import { ExternalAuth } from '../../common/models/model';
 
 @Component({
@@ -75,7 +74,7 @@ export class LoginComponent {
     EmailId!: string;
     isLoading: boolean = false;
     clientID: any = environment.clientID;
-
+    
     externalAuth: ExternalAuth = {
         credential: '',
     };
@@ -94,72 +93,8 @@ export class LoginComponent {
     }
 
     ngOnInit(): void {
-        // // @ts-ignore
-        // window.onGoogleLibraryLoad = () => {
-        //     // @ts-ignore
-        //     google.accounts.id.initialize({
-        //         client_id: this.clientID,
-        //         callback: this.handleCredentialResponse.bind(this),
-        //         auto_select: false,
-        //         cancel_on_tap_outside: true,
-        //     });
-        //     // @ts-ignore
-        //     google.accounts.id.renderButton(
-        //         // @ts-ignore
-        //         document.getElementById('google'),
-        //         {
-        //             theme: 'filled_blue',
-        //             size: 'large',
-        //             width: 450,
-        //             shape: 'rectangular',
-        //             text: 'signin_with',
-        //             logo_alignment: 'left',
-        //         }
-        //     );
-        //     // @ts-ignore
-        //     google.accounts.id.prompt(
-        //         (notification: PromptMomentNotification) => {}
-        //     );
-        // };
+        
     }
-
-    // handleCredentialResponse(model: ExternalAuth) {
-    //     this.service.loginWithGoogle(model.credential).subscribe(
-    //         (response: any) => {
-    //             if (response.success) {
-    //                 const authData = {
-    //                     token: response.data.accessToken.token,
-    //                     userRole: response.data.userProfile.roleId,
-    //                     userId: response.data.userProfile.userId,
-    //                     userName: response.data.userProfile.userName,
-    //                 };
-    //                 this.encryptionService.setEncryptedData(
-    //                     'authData',
-    //                     authData
-    //                 );
-    //                 this.toastr.success(
-    //                     'Success',
-    //                     `Account successfully logged in with ${response.data.userProfile.userName} .`
-    //                 );
-    //                 this.isLoading = true;
-    //                 this.ngZone.run(() => {
-    //                     this.router
-    //                         .navigate(['shopease/dashboard'])
-    //                         .then(() => window.location.reload());
-    //                 });
-    //             } else {
-    //                 this.toastr.error(
-    //                     'Error!',
-    //                     'Something went wrong, please try again later.'
-    //                 );
-    //                 this.isLoading = false;
-    //             }
-    //         },
-    //         (error: any) => {
-    //             this.toastr.error(error.message);
-    //         }
-    //     );
-    // }
 
     private loadGoogleApi(): Promise<void> {
         return new Promise((resolve) => {

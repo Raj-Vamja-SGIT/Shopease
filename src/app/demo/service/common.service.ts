@@ -20,6 +20,14 @@ export class CommonService {
             getUserProfile: 'api/UserProfile/GetUserProfile',
             updateUserProfile: 'api/UserProfile/UpdateUserProfile',
         },
+        admin: {
+            getUsers: 'api/Admin/GetUsers',
+            addUser: 'api/Admin/AddUser',
+            deleteUser: 'api/Admin/DeleteUser'
+        },
+        dashBoard: {
+            getDashboardData: 'api/Admin/GetDashboardData',
+        },
     };
 
     constructor(private http: HttpClient) {}
@@ -51,23 +59,23 @@ export class CommonService {
         return this.http.post<any>(url, body, { headers });
     }
 
-    forgotPassword(email: string, clientUrl: string) : Observable<any>{
+    forgotPassword(email: string, clientUrl: string): Observable<any> {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
         });
-        const body = JSON.stringify({email, clientUrl});
+        const body = JSON.stringify({ email, clientUrl });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.forgotPassword}`;
         return this.http.post<any>(url, body, { headers });
-      }
+    }
 
-      changePassword(passwordDetails: any) : Observable<any>{
+    changePassword(passwordDetails: any): Observable<any> {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
         });
         const body = JSON.stringify(passwordDetails);
         const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.changePassword}`;
         return this.http.post<any>(url, body, { headers });
-      }
+    }
 
     getUserProfileDetails(userId: any): Observable<any> {
         const headers = new HttpHeaders({
@@ -83,5 +91,37 @@ export class CommonService {
         });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.userProfile.updateUserProfile}`;
         return this.http.post<any>(url, formData);
+    }
+
+    getUsers(): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getUsers}`;
+        return this.http.get(url, { headers });
+    }
+
+    addUser(formData: FormData): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.addUser}`;
+        return this.http.post<any>(url, formData);
+    }
+
+    deletUser(userId: any): Observable<any>{
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.deleteUser}?userId=${userId}`;
+        return this.http.get(url, { headers });
+    }
+
+    getDashboardData(): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.dashBoard.getDashboardData}`;
+        return this.http.get(url, { headers });
     }
 }

@@ -1,6 +1,7 @@
 .customer-badge,
 .product-badge,
-.order-badge {
+.order-badge, 
+.user-badge {
   border-radius: var(--border-radius);
   padding: 0.25em 0.5rem;
   text-transform: uppercase;
@@ -18,6 +19,15 @@
   color: #C63737;
 }
 .product-badge.status-lowstock {
+  background: #FEEDAF;
+  color: #8A5340;
+}
+
+.user-badge.gender-male-female {
+  background: #C8E6C9;
+  color: #256029;
+}
+.user-badge.role-1-2 {
   background: #FEEDAF;
   color: #8A5340;
 }

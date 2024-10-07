@@ -44,7 +44,7 @@
                     <span class="block text-500 font-medium mb-3"
                         >Customers</span
                     >
-                    <div class="text-900 font-medium text-xl">28441</div>
+                    <div class="text-900 font-medium text-xl">{{countData.Customers}} </div>
                 </div>
                 <div
                     class="flex align-items-center justify-content-center bg-cyan-100 border-round"
@@ -53,7 +53,7 @@
                     <i class="pi pi-inbox text-cyan-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">520 </span>
+            <span class="text-green-500 font-medium">{{countData.NewlyRegistered}} </span>
             <span class="text-500">newly registered</span>
         </div>
     </div>
@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <div class="col-12 xl:col-6">
+    <!-- <div class="col-12 xl:col-6">
         <div class="card">
             <h5>Recent Sales</h5>
             <p-table
@@ -293,7 +293,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
 
     <div class="col-12 xl:col-6">
         <div class="card">
@@ -304,8 +304,7 @@
                 [options]="chartOptions"
             ></p-chart>
         </div>
-
-        <div class="card">
+        <!-- <div class="card">
             <div class="flex align-items-center justify-content-between mb-4">
                 <h5>Notifications</h5>
                 <div>
@@ -385,6 +384,6 @@
                     >
                 </li>
             </ul>
-        </div>
+        </div> -->
     </div>
 </div>
