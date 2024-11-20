@@ -231,7 +231,7 @@ export class LoginComponent {
             (error) => {
                 this.toastr.error(
                     'Error!',
-                    'Username or password are incorrcet.'
+                    error.message
                 );
                 this.isLoading = false;
             }

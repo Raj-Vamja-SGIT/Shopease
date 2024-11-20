@@ -28,6 +28,7 @@ export interface ExternalAuth {
     credential: string;
 }
 export interface Users {
+    [x: string]: any;
     userId?: any;
     userName?: string;
     userEmail?: string;
@@ -78,4 +79,20 @@ export interface CountData {
     UserCountOnOct?: any;
     UserCountOnNov?: any;
     UserCountOnDec?: any;
+}
+
+export interface Product {
+    ProductId?: number;
+    ProductName?: string;
+    ProductDescription?: string;
+    Price?: any;
+    Discount?: any;
+    StockStatus?: any;
+    SKU?: any;
+    BrandId?: number;
+    Category?: number;
+    Brand?: number;
+    Rating?: number;
+    PrimaryImageUrl?: '';
+    PrimaryImageFile?: any;
 }

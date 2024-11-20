@@ -36,9 +36,9 @@ export class UsersComponent {
     selectedThumbnailAttachmentName: string;
 
     constructor(
-        private service: CommonService,
-        private toast: ToastrMessageService,
-        private router: Router
+        private readonly service: CommonService,
+        private readonly toast: ToastrMessageService,
+        private readonly router: Router
     ) {}
 
     ngOnInit(): void {
@@ -64,7 +64,7 @@ export class UsersComponent {
     }
 
     thumbnailAttachFileChanged(event: any) {
-        if (event.target.files && event.target.files[0]) {
+        if (event?.target.files[0]) {
             const fileSize = event.target.files[0].size;
             if (fileSize >= 10000000) {
                 this.thumbnailSizeFlag = true;
@@ -149,7 +149,11 @@ export class UsersComponent {
         formData.append('Gender', this.user.gender);
         formData.append(
             'Role',
-            (this.user.role === Roles.SuperAdmin ? 1 : this.user.role === Roles.Admin ? 2 : 3
+            (this.user.role === Roles.SuperAdmin
+                ? 1
+                : this.user.role === Roles.Admin
+                ? 2
+                : 3
             ).toString()
         );
 
@@ -210,12 +214,65 @@ export class UsersComponent {
     }
 
     confirmDelete() {
-        this.deleteUserDialog = false;
+        this.isLoading = true;
+        this.service.deleteUser(this.user.userId).subscribe(
+            (response) => {
+                if (response.success) {
+                    this.toast.success('Success', response.message);
+                    this.isLoading = false;
+                    this.deleteUserDialog = false;
+                    this.getUsers();
+                } else {
+                    this.toast.error('Error', response.message);
+                    this.isLoading = false;
+                    this.deleteUserDialog = false;
+                }
+            },
+            (error) => {
+                this.toast.error(
+                    'Error!',
+                    'There is an unwanted error, please try agaim later.'
+                );
+                this.isLoading = false;
+                this.deleteUserDialog = false;
+            }
+        );
     }
 
     hideDialog() {
         this.thumbnailPhoto = '';
         this.userDialog = false;
         this.submitted = false;
+    }
+
+    deleteselectedUsers(users: Users) {
+        this.isLoading = true;
+
+        const userIds = Array.prototype.map
+            .call(users, (u) => u.userId)
+            .toString();
+
+        this.service.deleteMultiUser(userIds).subscribe(
+            (response) => {
+                if (response.success) {
+                    this.toast.success('Success', response.message);
+                    this.isLoading = false;
+                    this.deleteUserDialog = false;
+                    this.getUsers();
+                } else {
+                    this.toast.error('Error', response.message);
+                    this.isLoading = false;
+                    this.deleteUserDialog = false;
+                }
+            },
+            (error) => {
+                this.toast.error(
+                    'Error!',
+                    'There is an unwanted error, please try agaim later.'
+                );
+                this.isLoading = false;
+                this.deleteUserDialog = false;
+            }
+        );
     }
 }

@@ -177,7 +177,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     backgroundColor:
                         documentStyle.getPropertyValue('--blue-300'),
                     borderColor: documentStyle.getPropertyValue('--blue-300'),
-                    tension: 0.4,
+                    tension: 0.4,   
                 },
                 {
                     label: 'User Dataset',
