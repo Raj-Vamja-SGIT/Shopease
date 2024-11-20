@@ -1,0 +1,83 @@
+<div class="grid">
+    <div class="col-12 md:col-7">
+        <div class="card p-fluid">
+            <h5 class="pb-2">General Information</h5>
+            <div class="field">
+                <label htmlFor="productName">Product Name</label>
+                <input
+                    pInputText
+                    placeholder="Enter Product Name"
+                    id="productName"
+                    type="text"
+                />
+            </div>
+            <div class="field">
+                <label htmlFor="productDescription">Descriprion</label>
+                <textarea
+                    rows="2"
+                    cols="30"
+                    placeholder="Enter Product Descriprion"
+                    pInputTextarea
+                ></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 md:col-5">
+        <div class="card p-fluid">
+            <h5 class="pb-2">Product Media</h5>
+        </div>
+    </div>
+    <div class="col-12 md:col-7">
+        <div class="card p-fluid">
+            <h5 class="pb-2">Pricing</h5>
+            <div class="field">
+                <label htmlFor="price">Base Price</label>
+                <p-inputGroup class="w-full">
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Enter Product Price"
+                    />
+                    <p-inputGroupAddon>₹</p-inputGroupAddon>
+                </p-inputGroup>
+            </div>
+            <div class="field">
+                <label htmlFor="discount">Discount Percentage (%)</label>
+                <p-inputGroup class="w-full">
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Enter Product Discount"
+                    />
+                    <p-inputGroupAddon>%</p-inputGroupAddon>
+                </p-inputGroup>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 md:col-5">
+        <div class="card p-fluid">
+            <h5 class="pb-2">Category</h5>
+        </div>
+    </div>
+    <div class="col-12 md:col-7">
+        <div class="card p-fluid">
+            <h5>Inventory Details</h5>
+            <div class="grid formgrid">
+                <div class="col-12 lg:col-6">
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Enter Product SKU"
+                    />
+                </div>
+                <div class="col-12 lg:col-6">
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Enter Product Quantity"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
