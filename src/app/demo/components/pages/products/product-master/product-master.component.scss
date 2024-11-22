@@ -1,0 +1,17 @@
+.container {
+    position: relative; 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-end;
+    height: 100%; 
+    padding-bottom: 30px; 
+    box-sizing: border-box; 
+  }
+  
+  .add-product-button {
+    width: 40%; 
+    text-align: center;
+    margin: 0; 
+  }
+
+  

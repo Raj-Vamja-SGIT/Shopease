@@ -2,7 +2,7 @@ interface InventoryStatus {
     label: string;
     value: string;
 }
-export interface Product {
+export interface Products {
     id?: string;
     code?: string;
     name?: string;

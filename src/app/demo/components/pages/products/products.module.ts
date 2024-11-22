@@ -14,6 +14,11 @@ import { RouterLink } from '@angular/router';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroupModule } from 'primeng/inputgroup';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ScrollPanelModule } from 'primeng/scrollpanel'; 
+import { DialogModule } from 'primeng/dialog';
+import { LoaderComponent } from '../../common/loader/loader/loader.component';
+
 
 @NgModule({
     declarations: [ProductsComponent, ProductMasterComponent],
@@ -30,7 +35,11 @@ import { InputGroupModule } from 'primeng/inputgroup';
         RouterLink,
         InputTextareaModule,
         InputGroupModule,
-		InputGroupAddonModule
+		InputGroupAddonModule,
+        FileUploadModule,
+        ScrollPanelModule,
+        DialogModule,
+        LoaderComponent 
     ],
 })
 export class ProductsModule {}

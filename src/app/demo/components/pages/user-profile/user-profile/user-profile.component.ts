@@ -1,6 +1,6 @@
 import { UserProfile } from './../../../common/models/model';
 import { EncryptionService } from './../../../../service/encryption.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/demo/service/common.service';
 import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
 import { environment } from 'src/environments/environment';
@@ -39,10 +39,10 @@ export class UserProfileComponent {
     };
 
     constructor(
-        private toastr: ToastrMessageService,
-        private service: CommonService,
-        private encryptionService: EncryptionService,
-        private userService: UserService
+        private readonly toastr: ToastrMessageService,
+        private readonly service: CommonService,
+        private readonly encryptionService: EncryptionService,
+        private readonly userService: UserService
     ) {}
     ngOnInit(): void {
         this.gender = [

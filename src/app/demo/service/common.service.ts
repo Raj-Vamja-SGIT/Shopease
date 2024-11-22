@@ -26,6 +26,9 @@ export class CommonService {
             deleteUser: 'api/Admin/DeleteUser',
             deleteMultiUser: 'api/Admin/DeleteMultiUser',
             getProducts: 'api/Product/GetProducts',
+            getBrands: 'api/Product/GetBrands',
+            getCategories: 'api/Product/GetCategories',
+            getProductDetails: 'api/Product/GetProductDetails',
         },
         dashBoard: {
             getDashboardData: 'api/Admin/GetDashboardData',
@@ -137,5 +140,29 @@ export class CommonService {
         // const body = JSON.stringify({ roleId });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getProducts}?roleId=${roleId}`;
         return this.http.get<any>(url, { headers });
+    }
+
+    getBrands(): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getBrands}`;
+        return this.http.get(url, { headers });
+    }
+
+    getCategories(): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getCategories}`;
+        return this.http.get(url, { headers });
+    }
+
+    getProductDetails(productId: any): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getProductDetails}?productId=${productId}`;
+        return this.http.get(url, { headers });
     }
 }
