@@ -1,17 +1,89 @@
 .container {
-    position: relative; 
-    display: flex; 
-    justify-content: center; 
+    position: relative;
+    display: flex;
+    justify-content: center;
     align-items: flex-end;
-    height: 100%; 
-    padding-bottom: 30px; 
-    box-sizing: border-box; 
-  }
-  
-  .add-product-button {
-    width: 40%; 
-    text-align: center;
-    margin: 0; 
-  }
+    // height: 25%;
+    padding-bottom: 0px;
+    box-sizing: border-box;
+}
 
-  
+.add-product-button {
+    width: 40%;
+    text-align: center;
+    margin: 0;
+}
+
+.stickybottom {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0px;
+    z-index: 999;
+    margin-top: auto !important;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    // padding: 20px;
+    // border: 1px solid #ddd;
+    border-radius: 8px;
+    // background: #fff;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dropzone {
+    border: 2px dashed #f96e66;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.dropzone:hover {
+    background-color: #f0f8ff;
+}
+
+.preview-container {
+    margin-top: 20px;
+}
+
+.file-preview {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.file-preview img {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.file-preview p {
+    flex: 1;
+    margin: 0;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}

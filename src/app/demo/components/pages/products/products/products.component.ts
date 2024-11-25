@@ -7,6 +7,7 @@ import { EncryptionService } from 'src/app/demo/service/encryption.service';
 import { Router } from '@angular/router';
 import { Product } from './../../../common/models/model';
 import { Products } from 'src/app/demo/api/product';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-products',
@@ -14,6 +15,7 @@ import { Products } from 'src/app/demo/api/product';
     styleUrl: './products.component.scss',
 })
 export class ProductsComponent {
+    baseUrl: any = environment.productImageUrl;
     isLoading: boolean = true;
     products: Products[] = [];
     sortOptions: SelectItem[] = [];

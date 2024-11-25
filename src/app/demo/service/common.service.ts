@@ -29,6 +29,8 @@ export class CommonService {
             getBrands: 'api/Product/GetBrands',
             getCategories: 'api/Product/GetCategories',
             getProductDetails: 'api/Product/GetProductDetails',
+            addProductImage: 'api/Product/AddProductImages',
+            getProductImages: 'api/Product/GetProductImages'
         },
         dashBoard: {
             getDashboardData: 'api/Admin/GetDashboardData',
@@ -164,5 +166,18 @@ export class CommonService {
         });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getProductDetails}?productId=${productId}`;
         return this.http.get(url, { headers });
+    }
+
+    addProductImage(formData: FormData): Observable<any> {
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.addProductImage}`;
+        return this.http.post<any>(url, formData);
+    }
+
+    getProductImages(productId: any): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getProductImages}?productId=${productId}`;
+        return this.http.get<any>(url, { headers });
     }
 }

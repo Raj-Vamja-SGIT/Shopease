@@ -18,7 +18,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ScrollPanelModule } from 'primeng/scrollpanel'; 
 import { DialogModule } from 'primeng/dialog';
 import { LoaderComponent } from '../../common/loader/loader/loader.component';
-
+import { CarouselModule } from 'primeng/carousel'
 
 @NgModule({
     declarations: [ProductsComponent, ProductMasterComponent],
@@ -39,7 +39,8 @@ import { LoaderComponent } from '../../common/loader/loader/loader.component';
         FileUploadModule,
         ScrollPanelModule,
         DialogModule,
-        LoaderComponent 
+        LoaderComponent,
+        CarouselModule 
     ],
 })
 export class ProductsModule {}

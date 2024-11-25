@@ -5,6 +5,7 @@ import { CommonService } from 'src/app/demo/service/common.service';
 import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
 import { Brands } from '../../../common/models/model';
 import { forkJoin } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 interface UploadEvent {
     originalEvent: Event;
@@ -17,6 +18,7 @@ interface UploadEvent {
     styleUrl: './product-master.component.scss',
 })
 export class ProductMasterComponent {
+    baseUrl: any = environment.productImageUrl;
     isLoading: boolean = false;
     uploadedFiles: any[] = [];
     brands: Brands[] = [];
@@ -27,6 +29,7 @@ export class ProductMasterComponent {
     selectedFile: any = null;
     _id: any;
     isEdit: boolean = false;
+    responsiveOptions: any[] | undefined;
 
     ProductDetails: Product = {
         ProductId: '',
@@ -43,6 +46,9 @@ export class ProductMasterComponent {
         ImageFiles: '',
     };
 
+    selectedFiles: any[] = [];
+    oldFiles = [];
+
     constructor(
         private readonly service: CommonService,
         private readonly toast: ToastrMessageService,
@@ -58,6 +64,25 @@ export class ProductMasterComponent {
     ngOnInit(): void {
         this.getBrandsAndCategories();
         this.getProductDetails();
+        this.getProductImages();
+
+        this.responsiveOptions = [
+            {
+                breakpoint: '1199px',
+                numVisible: 1,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '991px',
+                numVisible: 2,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '767px',
+                numVisible: 1,
+                numScroll: 1,
+            },
+        ];
     }
 
     getProductDetails() {
@@ -127,28 +152,153 @@ export class ProductMasterComponent {
         );
     }
 
-    onUpload(event: UploadEvent) {
-        for (let file of event.files) {
-            this.uploadedFiles.push(file);
-        }
-        console.log(this.uploadedFiles);
-        
-    }
+    // onUpload(event: UploadEvent) {
+    //     for (let file of event.files) {
+    //         this.uploadedFiles.push(file);
+    //     }
+    //     console.log(this.uploadedFiles);
+    // }
 
-    onFileSelect(event: any): void {
-        this.selectedFile = event.files[0];
-        console.log('Selected file:', this.selectedFile);
-    }
+    // onFileSelect(event: any): void {
+    //     this.selectedFile = event.files[0];
+    //     console.log('Selected file:', this.selectedFile);
+    // }
 
-    onFileRemove(event: any): void {
-        console.log('Removed file:', event.file);
-        this.uploadedFiles = this.uploadedFiles.filter(
-            (file) => file !== event.file
-        );
-    }
+    // onFileRemove(event: any): void {
+    //     console.log('Removed file:', event.file);
+    //     this.uploadedFiles = this.uploadedFiles.filter(
+    //         (file) => file !== event.file
+    //     );
+    // }
 
     showDialog() {
         this.visible = true;
     }
-    
+
+    extractOriginalFileName(encryptedFileName: string): string {
+        const parts = encryptedFileName.split('_');
+        return parts.slice(1).join('_');
+    }
+
+    getProductImages() {
+        if (this._id && this._id != undefined) {
+            this.isLoading = true;
+            setTimeout(() => {
+                this.service.getProductImages(this._id).subscribe(
+                    (response: any) => {
+                        if (response.success) {
+                            const imgs = response.data;
+
+                            let filesDetails: any[] = [];
+
+                            for (let i = 0; i < imgs.length; i++) {
+                                const name = this.extractOriginalFileName(
+                                    imgs[i].imageUrls
+                                );
+
+                                filesDetails.push({
+                                    name: name,
+                                    url: this.baseUrl + imgs[i].imageUrls,
+                                });
+                            }
+                            this.oldFiles = filesDetails;
+
+                            this.isLoading = false;
+                        } else {
+                            this.toast.error('Error', response.message);
+                            this.isLoading = false;
+                        }
+                    },
+                    (error: any) => {
+                        this.toast.error('Error', error.message);
+                        this.isLoading = false;
+                    }
+                );
+            }, 500);
+        }
+    }
+
+    onFileChange(event: any) {
+        const files = event.target.files;
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+            reader.onload = () => {
+                this.selectedFiles.push({
+                    file: file,
+                    name: file.name,
+                    preview: reader.result,
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    onDrop(event: DragEvent) {
+        event.preventDefault();
+        const files = event.dataTransfer?.files;
+        if (files) {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                reader.onload = () => {
+                    this.selectedFiles.push({
+                        file: file,
+                        name: file.name,
+                        preview: reader.result,
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+
+    onDragOver(event: DragEvent) {
+        event.preventDefault();
+    }
+
+    onDragLeave(event: DragEvent) {}
+
+    onUploadFile(files: any) {
+        if (files.length > 0) {
+            const formData = new FormData();
+            formData.append('ProductId', this._id);
+            // Loop through the files and append each file individually
+            for (let i = 0; i < files.length; i++) {
+                formData.append('ImageFiles', files[i].file);
+            }
+
+            setTimeout(() => {
+                this.service.addProductImage(formData).subscribe(
+                    (response) => {
+                        if (response.success) {
+                            this.toast.success('Success!', response.message);
+                            files.length = 0;
+                            this.getProductImages();
+                            this.isLoading = false;
+                        } else {
+                            this.toast.error('Error!', response.message);
+                            this.isLoading = false;
+                        }
+                    },
+                    (error) => {
+                        this.toast.error(
+                            'Error!',
+                            'There is an error while upload the product image!'
+                        );
+                        this.isLoading = false;
+                    }
+                );
+            }, 900);
+        }
+    }
+
+    removeNewFile(index: number) {
+        this.selectedFiles.splice(index, 1);
+    }
+
+    removeOldFile(fileId: number, index: number) {
+        console.log(`Deleting file with ID: ${fileId}`);
+        this.oldFiles.splice(index, 1); // Remove from UI
+    }
 }
