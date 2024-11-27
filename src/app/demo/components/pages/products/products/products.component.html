@@ -3,7 +3,7 @@
 	<div class="col-12">
 		<div class="card">
 			<h5>Products</h5>
-			<p-dataView #dv [value]="products" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+			<p-dataView #dv [value]="products" [paginator]="true" [rows]="6" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
 				<ng-template pTemplate="header">
 					<div class="flex flex-column md:flex-row md:justify-content-between gap-2">
 						<p-dropdown [options]="sortOptions" placeholder="Sort By Price" (onChange)="onSortChange($event)"></p-dropdown>
@@ -11,32 +11,9 @@
                             <i class="pi pi-search"></i>
                             <input type="search" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)">
                         </span>	
-						<!-- <p-dataViewLayoutOptions></p-dataViewLayoutOptions> -->
 						<button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="onCreateNew()"></button>
 					</div>
 				</ng-template>
-
-				<!-- <ng-template let-products pTemplate="listItem">
-					<div class="col-12" *ngFor="let product of products">
-						<div class="flex flex-column md:flex-row align-items-center p-3 w-full">
-							<img [src]="product.primaryImageUrl ? 'assets/demo/images/product/' + product.primaryImageUrl : 'assets/demo/images/product/default-image.png'" [alt]="product.productName" [ngClass]="{'shadow-2': product.primaryImageUrl, 'shadow-none': !product.primaryImageUrl}" class="w-9 shadow-2 my-3 mx-0"/>
-							<div class="flex-1 flex flex-column align-items-center text-center md:text-left">
-								<div class="font-bold text-2xl">{{product.productName}}</div>
-								<div class="mb-2">{{product.productDescription}}</div>
-								<p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false" styleClass="mb-2"></p-rating>
-								<div class="flex align-items-center mt-2">
-									<i class="pi pi-tag mr-2"></i>
-									<span class="font-semibold">{{product.category}}</span>
-								</div>
-							</div>
-							<div class="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0">
-								<span class="text-2xl font-semibold mb-2 align-self-center md:align-self-end">₹{{product.price}}</span>
-								<p-button icon="pi pi-shopping-cart" label="Add to Cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'" styleClass="mb-2 p-button-sm"></p-button>
-								<span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
-							</div>
-						</div>
-					</div>
-				</ng-template> -->
 
 				<ng-template let-products pTemplate="gridItem">
 					<div class="grid grid-nogutter">
@@ -50,14 +27,29 @@
 								<span [class]="'product-badge status-' + product.stockStatus.toLowerCase()">{{product.stockStatus}}</span>
 							</div>
 							<div class="flex flex-column align-items-center text-center mb-3">
-								<img [src]="product.primaryImageUrl ? 'assets/demo/images/product/' + product.primaryImageUrl : 'assets/layout/images/shop.png'" [alt]="product.productName" [ngClass]="{'shadow-2': product.primaryImageUrl, 'shadow-none': !product.primaryImageUrl}" class="w-9 shadow-2 my-3 mx-0"/>
-								<div class="text-2xl font-bold mb-2">{{product.productName}}</div>
+								<img [src]="product.imageURL ? baseUrl + product.imageURL : 'assets/layout/images/shop.png'" [alt]="product.productName" [ngClass]="{'shadow-2': product.imageURL, 'shadow-none': !product.imageURL}" class="w-9 shadow-2 my-3 mx-0" style="max-width: 301px; max-height: 301px;"/>
+								
+								<div class="font-bold mb-2 font-bold">
+									<div class="scroll-container">
+									  <span
+										[ngClass]="{'scroll-text': product.productName.length }"
+										style="word-wrap: break-word; white-space: pre-wrap;"
+									  >
+										{{ product.productName }}
+									  </span>
+									</div>
+								  </div>								  
+															  
 								<div class="mb-3 prod-desc">{{product.productDescription}}</div>
 								<p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
 							</div>
-							<div class="flex align-items-center">
-								<span class="text-2xl font-semibold">₹{{product.price}}</span>
+							<div class="flex align-items-center" *ngIf="product.discount == 0">
+								<span class="text-xl">₹{{product.price}}</span>
 								<!-- <p-button icon="pi pi-shopping-cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></p-button> -->
+							</div>
+							<div class="flex align-items-center" *ngIf="product.discount > 0">
+								<span class="text-xl">₹{{product.discountPrice}}</span>
+								<span class="mx-2">M.R.P:<span class="actual-price"> ₹{{product.price}} </span> <span class="ml-1">({{product.discount}}% off)</span></span>
 							</div>
 						</div>
 					</div>

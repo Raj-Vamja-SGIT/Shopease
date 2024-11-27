@@ -29,6 +29,9 @@ export class CommonService {
             getBrands: 'api/Product/GetBrands',
             getCategories: 'api/Product/GetCategories',
             getProductDetails: 'api/Product/GetProductDetails',
+            saveProduct: 'api/Product/AddUpdateProduct',
+            addProductImage: 'api/Product/AddProductImages',
+            getProductImages: 'api/Product/GetProductImages',
         },
         dashBoard: {
             getDashboardData: 'api/Admin/GetDashboardData',
@@ -133,20 +136,23 @@ export class CommonService {
         return this.http.get(url, { headers });
     }
 
-    getProducts(roleId: any): Observable<any> {
+    getProducts(roleId: any, searchTerm: string): Observable<any> {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
         });
-        // const body = JSON.stringify({ roleId });
-        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getProducts}?roleId=${roleId}`;
+
+        let url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getProducts}?Id=${roleId}`;
+        if (searchTerm) {
+            url += `&searchTerm=${searchTerm}`;
+        }
         return this.http.get<any>(url, { headers });
     }
 
-    getBrands(): Observable<any> {
+    getBrands(categoryId: number): Observable<any> {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
         });
-        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getBrands}`;
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getBrands}?categoryId=${categoryId}`;
         return this.http.get(url, { headers });
     }
 
@@ -164,5 +170,23 @@ export class CommonService {
         });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getProductDetails}?productId=${productId}`;
         return this.http.get(url, { headers });
+    }
+
+    saveProduct(formData: FormData): Observable<any> {
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.saveProduct}`;
+        return this.http.post<any>(url, formData);
+    }
+
+    addProductImage(formData: FormData): Observable<any> {
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.addProductImage}`;
+        return this.http.post<any>(url, formData);
+    }
+
+    getProductImages(productId: any): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getProductImages}?productId=${productId}`;
+        return this.http.get<any>(url, { headers });
     }
 }
