@@ -53,7 +53,6 @@ export class UserProfileComponent {
             this.encryptionService.getDecryptedData('authData')?.userId;
         this.getUserProfile();
         console.log(this.encryptionService.getDecryptedData('authData'));
-        
     }
 
     thumbnailAttachFileChanged(event: any) {
@@ -155,6 +154,13 @@ export class UserProfileComponent {
     }
 
     onSubmit(userProfileForm: any) {
+        if (userProfileForm.invalid) {
+            Object.keys(userProfileForm.controls).forEach((key) => {
+                userProfileForm.controls[key].markAsTouched();
+            });
+            return;
+        }
+
         this.isLoading = true;
         const formData = new FormData();
         formData.append('UserId', this.userId.toString());

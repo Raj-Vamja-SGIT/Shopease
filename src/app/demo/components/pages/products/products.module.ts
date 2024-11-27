@@ -15,11 +15,14 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { FileUploadModule } from 'primeng/fileupload';
-import { ScrollPanelModule } from 'primeng/scrollpanel'; 
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { DialogModule } from 'primeng/dialog';
 import { LoaderComponent } from '../../common/loader/loader/loader.component';
-import { CarouselModule } from 'primeng/carousel'
-
+import { CarouselModule } from 'primeng/carousel';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { TooltipModule } from 'primeng/tooltip';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { DividerModule } from 'primeng/divider';
 @NgModule({
     declarations: [ProductsComponent, ProductMasterComponent],
     imports: [
@@ -35,12 +38,16 @@ import { CarouselModule } from 'primeng/carousel'
         RouterLink,
         InputTextareaModule,
         InputGroupModule,
-		InputGroupAddonModule,
+        InputGroupAddonModule,
         FileUploadModule,
         ScrollPanelModule,
         DialogModule,
         LoaderComponent,
-        CarouselModule 
+        CarouselModule,
+        CKEditorModule,
+        TooltipModule,
+        BreadcrumbModule,
+        DividerModule
     ],
 })
 export class ProductsModule {}

@@ -6,6 +6,23 @@ import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
 import { Brands } from '../../../common/models/model';
 import { forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import {
+    ClassicEditor,
+    Bold,
+    Essentials,
+    Heading,
+    Indent,
+    IndentBlock,
+    Italic,
+    Link,
+    List,
+    MediaEmbed,
+    Paragraph,
+    Table,
+    Undo,
+} from 'ckeditor5';
+import { MenuItem } from 'primeng/api';
+import { EncryptionService } from 'src/app/demo/service/encryption.service';
 
 interface UploadEvent {
     originalEvent: Event;
@@ -30,6 +47,7 @@ export class ProductMasterComponent {
     _id: any;
     isEdit: boolean = false;
     responsiveOptions: any[] | undefined;
+    loginId: any;
 
     ProductDetails: Product = {
         ProductId: '',
@@ -48,12 +66,52 @@ export class ProductMasterComponent {
 
     selectedFiles: any[] = [];
     oldFiles = [];
+    items: MenuItem[] | undefined;
+    home: MenuItem | undefined;
+    ABC: MenuItem | undefined;
+
+    public Editor = ClassicEditor;
+    public config = {
+        toolbar: [
+            'undo',
+            'redo',
+            '|',
+            'heading',
+            '|',
+            'bold',
+            'italic',
+            '|',
+            'link',
+            'insertTable',
+            'mediaEmbed',
+            '|',
+            'bulletedList',
+            'numberedList',
+            'indent',
+            'outdent',
+        ],
+        plugins: [
+            Bold,
+            Essentials,
+            Heading,
+            Indent,
+            IndentBlock,
+            Italic,
+            Link,
+            List,
+            MediaEmbed,
+            Paragraph,
+            Table,
+            Undo,
+        ],
+    };
 
     constructor(
         private readonly service: CommonService,
         private readonly toast: ToastrMessageService,
         private readonly router: Router,
-        private readonly route: ActivatedRoute
+        private readonly route: ActivatedRoute,
+        private readonly encryptionService: EncryptionService
     ) {
         this._id = this.route.snapshot.params['id'];
         if (this._id > 0 && this._id != null) {
@@ -62,10 +120,9 @@ export class ProductMasterComponent {
     }
 
     ngOnInit(): void {
-        this.getBrandsAndCategories();
         this.getProductDetails();
         this.getProductImages();
-
+        this.getCategories();
         this.responsiveOptions = [
             {
                 breakpoint: '1199px',
@@ -83,15 +140,24 @@ export class ProductMasterComponent {
                 numScroll: 1,
             },
         ];
+
+        this.items = [
+            { icon: 'pi pi-home', route: '/shopease/dashboard' },
+            { label: 'Products', route: '/shopease/pages/products' },
+        ];
+        this.loginId =
+            this.encryptionService.getDecryptedData('authData')?.userId;
     }
 
     getProductDetails() {
-        if (this._id != 0 && this._id != null) {
+        if (this._id > 0 && this._id != null) {
             this.isLoading = true;
             setTimeout(() => {
                 this.service.getProductDetails(this._id).subscribe(
                     (response: any) => {
                         if (response.success) {
+                            this.isEdit = true;
+
                             this.ProductDetails.ProductId =
                                 response.data.productId;
                             this.ProductDetails.ProductName =
@@ -112,6 +178,9 @@ export class ProductMasterComponent {
                             );
                             this.ProductDetails.Rating = response.data.rating;
 
+                            if (this.ProductDetails.Category > 0) {
+                                this.getBrands(this.ProductDetails.Category);
+                            }
                             this.isLoading = false;
                         } else {
                             this.toast.error('Error', response.message);
@@ -127,49 +196,23 @@ export class ProductMasterComponent {
         }
     }
 
-    getBrandsAndCategories() {
-        forkJoin({
-            brands: this.service.getBrands(),
-            categories: this.service.getCategories(),
-        }).subscribe(
-            (responses: any) => {
-                // Handle brands response
-                if (responses.brands.success) {
-                    this.brands = responses.brands.data;
-                } else {
-                    this.brands = [];
-                }
-                // Handle categories response
-                if (responses.categories.success) {
-                    this.categories = responses.categories.data;
-                } else {
-                    this.categories = [];
-                }
-            },
-            (error: any) => {
-                console.error('Error fetching brands or categories:', error);
+    getCategories() {
+        this.service.getCategories().subscribe((response: any) => {
+            if (response.success) {
+                this.categories = response.data;
             }
-        );
+        });
     }
 
-    // onUpload(event: UploadEvent) {
-    //     for (let file of event.files) {
-    //         this.uploadedFiles.push(file);
-    //     }
-    //     console.log(this.uploadedFiles);
-    // }
-
-    // onFileSelect(event: any): void {
-    //     this.selectedFile = event.files[0];
-    //     console.log('Selected file:', this.selectedFile);
-    // }
-
-    // onFileRemove(event: any): void {
-    //     console.log('Removed file:', event.file);
-    //     this.uploadedFiles = this.uploadedFiles.filter(
-    //         (file) => file !== event.file
-    //     );
-    // }
+    getBrands(categoryId: number) {
+        if (categoryId > 0) {
+            this.service.getBrands(categoryId).subscribe((response: any) => {
+                if (response.success) {
+                    this.brands = response.data;
+                }
+            });
+        }
+    }
 
     showDialog() {
         this.visible = true;
@@ -192,11 +235,13 @@ export class ProductMasterComponent {
                             let filesDetails: any[] = [];
 
                             for (let i = 0; i < imgs.length; i++) {
+                                const id = imgs[i].imageId;
                                 const name = this.extractOriginalFileName(
                                     imgs[i].imageUrls
                                 );
 
                                 filesDetails.push({
+                                    id: id,
                                     name: name,
                                     url: this.baseUrl + imgs[i].imageUrls,
                                 });
@@ -261,6 +306,7 @@ export class ProductMasterComponent {
 
     onUploadFile(files: any) {
         if (files.length > 0) {
+            this.isLoading = true;
             const formData = new FormData();
             formData.append('ProductId', this._id);
             // Loop through the files and append each file individually
@@ -297,8 +343,62 @@ export class ProductMasterComponent {
         this.selectedFiles.splice(index, 1);
     }
 
-    removeOldFile(fileId: number, index: number) {
-        console.log(`Deleting file with ID: ${fileId}`);
-        this.oldFiles.splice(index, 1); // Remove from UI
+    removeOldFile(id: number) {}
+
+    onSubmit(productDetailsForm: any) {
+        if (productDetailsForm.invalid) {
+            Object.keys(productDetailsForm.controls).forEach((key) => {
+                productDetailsForm.controls[key].markAsTouched();
+            });
+            return;
+        }
+
+        this.isLoading = true;
+        const formData = new FormData();
+        formData.append('ProductId', this._id ? this._id : 0);
+        formData.append(
+            'ProductName',
+            productDetailsForm.form.value.productName
+        );
+        formData.append(
+            'ProductDescription',
+            productDetailsForm.form.value.productDescription
+        );
+        formData.append('Price', productDetailsForm.form.value.price);
+        formData.append(
+            'Discount',
+            productDetailsForm.form.value.discount
+                ? productDetailsForm.form.value.discount
+                : 0
+        );
+        formData.append(
+            'StockStatus',
+            productDetailsForm.form.value.stockStatus
+        );
+        formData.append('SKU', productDetailsForm.form.value.sku);
+        formData.append('Brand', productDetailsForm.form.value.brand);
+        formData.append('Category', productDetailsForm.form.value.category);
+        formData.append('CreatedBy', this.loginId ? this.loginId : '');
+
+        this.service.saveProduct(formData).subscribe(
+            (response) => {
+                if (response.success) {
+                    this.toast.success('Success!', response.message);
+                    this._id = response.taid;
+                    this.getProductDetails();
+                    this.isLoading = false;
+                } else {
+                    this.toast.error('Error!', response.message);
+                    this.isLoading = false;
+                }
+            },
+            (error) => {
+                this.toast.error(
+                    'Error!',
+                    'There is an error while add product!'
+                );
+                this.isLoading = false;
+            }
+        );
     }
 }

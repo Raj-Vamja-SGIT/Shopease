@@ -87,3 +87,12 @@ h3 {
 .delete-btn:hover {
     background-color: #c82333;
 }
+
+:host ::ng-deep .p-breadcrumb {
+    border: none;
+    background-color: #f9fafb !important;
+}
+.disabled {
+    pointer-events: none;
+    opacity: 0.7;
+}

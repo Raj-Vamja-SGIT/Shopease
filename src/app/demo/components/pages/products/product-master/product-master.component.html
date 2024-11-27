@@ -1,296 +1,440 @@
 <app-loader *ngIf="isLoading"></app-loader>
-<div class="grid">
-    <div class="col-12" [ngClass]="isEdit ? 'md:col-7' : 'md:col-12'">
-        <div class="card p-fluid">
-            <h5 class="pb-2">General Information</h5>
-            <div class="field">
-                <label htmlFor="productName">Product Name</label>
-                <input
-                    pInputText
-                    placeholder="Enter Product Name"
-                    id="productName"
-                    name="productName"
-                    [(ngModel)]="ProductDetails.ProductName"
-                    #productName="ngModel"
-                    type="text"
-                />
-            </div>
-            <div class="field">
-                <label htmlFor="productDescription">Descriprion</label>
-                <textarea
-                    rows="9"
-                    cols="30"
-                    placeholder="Enter Product Descriprion"
-                    pInputTextarea
-                    id="productDescription"
-                    name="productDescription"
-                    [(ngModel)]="ProductDetails.ProductDescription"
-                    #productDescription="ngModel"
-                ></textarea>
+<form #productDetailsForm="ngForm" (ngSubmit)="onSubmit(productDetailsForm)">
+    <div class="grid">
+        <div class="col-12">
+            <div
+                style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                "
+            >
+                <p-breadcrumb class="max-w-full" [model]="items">
+                    <ng-template pTemplate="item" let-item>
+                        <ng-container *ngIf="item.route; else elseBlock">
+                            <a
+                                [routerLink]="item.route"
+                                class="p-menuitem-link"
+                            >
+                                <span
+                                    [ngClass]="[
+                                        item.icon ? item.icon : '',
+                                        'text-color'
+                                    ]"
+                                ></span>
+                                <span class="text-primary font-semibold">{{
+                                    item.label
+                                }}</span>
+                            </a>
+                        </ng-container>
+                        <ng-template #elseBlock>
+                            <a [href]="item.url">
+                                <span class="text-color">{{ item.label }}</span>
+                            </a>
+                        </ng-template>
+                    </ng-template>
+                </p-breadcrumb>
+                <div
+                    style="
+                        display: flex;
+                        justify-content: end;
+                        align-items: end;
+                        height: 100%;
+                    "
+                >
+                    <button
+                        pButton
+                        pRipple
+                        label="Submit"
+                        type="submit"
+                        icon="pi pi-plus"
+                        class="p-button mr-2"
+                    ></button>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-12 md:col-5" *ngIf="isEdit">
-        <div class="card p-fluid" style="height: 385px">
-            <h5 class="pb-2">Product Media</h5>
-
-            <div class="card" style="margin-bottom: 0px;">
-                <p-carousel 
-                    [value]="oldFiles" 
-                    [numVisible]="3" 
-                    [numScroll]="3" 
-                    [circular]="true" 
-                    [responsiveOptions]="responsiveOptions" 
-                    autoplayInterval="3000">
-                    <ng-template let-file pTemplate="item">
-                        <div class="border-1 surface-border border-round m-2 p-3">
-                                <div class="mb-3">
-                                    <div class="relative mx-auto">
-                                        <img 
-                                            src="{{ file.url }}" 
-                                            [alt]="file.name" 
-                                            class="w-full border-round" />                                        
-                                    </div>
-                                </div>
-                                <!-- <div class="mb-3 font-medium">
-                                    {{ file.name }}
-                                </div> -->
-                            </div>
-                        </ng-template>
-                </p-carousel>
-            </div>
-
-            <div class="container stickybottom">
-                <button
-                    pButton
-                    pRipple
-                    label="Add Product Image"
-                    class="p-button-text add-product-button mt-2"
-                    icon="pi pi-plus"
-                    style="width: 40%"
-                    (click)="showDialog()"
-                ></button>
-            </div>
-            <p-dialog
-                header="Product Images"
-                [modal]="true"
-                [(visible)]="visible"
-                [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-                [style]="{ width: '40vw' }"
-                [draggable]="false"
-                [resizable]="false"
+        <div class="col-12 xl:col-6">
+            <div
+                class="card p-fluid"
+                [ngClass]="{ disabled: !isEdit }"
+                style="min-height: 257px"
             >
-                <div class="card">
-                    <!-- <p-fileUpload
-                        name="demo[]"
-                        url="https://www.primefaces.org/cdn/api/upload.php"
-                        (onUpload)="onUpload($event)"
-                        (onSelect)="onFileSelect($event)"
-                        [multiple]="true"
-                        accept="image/*"
-                        maxFileSize="10000000"
-                    >
-                        <ng-template pTemplate="content">
-                            <ul *ngIf="uploadedFiles.length">
-                                <p-scrollPanel
-                                    [style]="{ width: '100%', height: '200px' }"
-                                >
-                                    <li *ngFor="let file of uploadedFiles">
-                                        {{ file.name }} - {{ file.size }} bytes
-                                    </li>
-                                </p-scrollPanel>
-                            </ul>
-                        </ng-template>
-                    </p-fileUpload> -->
-
-                    <div
-                        class="dropzone"
-                        (drop)="onDrop($event)"
-                        (dragover)="onDragOver($event)"
-                        (dragleave)="onDragLeave($event)"
-                        (click)="fileInput.click()"
-                    >
-                        <p>
-                            Drag and drop files here, or click to select files
-                        </p>
-                        <input
-                            #fileInput
-                            type="file"
-                            (change)="onFileChange($event)"
-                            multiple
-                            hidden
-                        />
+                <div
+                    style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    "
+                >
+                    <div>
+                        <h5 class="pb-2">Product Media</h5>
                     </div>
-
-                    <!-- Preview for Newly Uploaded Files -->
-                    <div
-                        *ngIf="selectedFiles.length > 0"
-                        class="preview-container"
-                    >
-                        <h4>New Files</h4>
-                        <div
-                            class="file-preview"
-                            *ngFor="let file of selectedFiles; let i = index"
-                        >
-                            <img
-                                *ngIf="file.preview"
-                                [src]="file.preview"
-                                alt="Preview"
-                            />
-                            <p>{{ file.name }}</p>
-                            <!-- <button class="delete-btn" (click)="removeNewFile(i)">Delete</button> -->
-                            <i
-                                class="pi pi-trash"
-                                (click)="removeNewFile(i)"
-                                style="
-                                    font-size: 1.2rem;
-                                    color: red;
-                                    cursor: pointer;
-                                    padding-right: 2%;
-                                "
-                            ></i>
-                        </div>
-                    </div>
-
-                    <div
-                        class="mt-5"
-                        style="display: flex; justify-content: center"
-                        *ngIf="selectedFiles.length > 0"
-                    >
+                    <div>
                         <button
                             pButton
                             pRipple
+                            pTooltip="Add Product Images"
+                            tooltipPosition="left"
+                            icon="pi pi-images"
+                            class="p-button-text add-product-button"
+                            style="width: auto"
+                            (click)="showDialog()"
                             type="button"
-                            icon="pi pi-upload"
-                            class="p-button-rounded p-button-outlined"
-                            (click)="onUploadFile(selectedFiles)"
                         ></button>
                     </div>
+                </div>
 
-                    <!-- Display Old Files -->
-                    <div *ngIf="oldFiles.length > 0" class="preview-container">
-                        <h4>Existing Files</h4>
+                <div class="" style="margin-bottom: 0px">
+                    <p-carousel
+                        [value]="oldFiles"
+                        [numVisible]="3"
+                        [numScroll]="3"
+                        [circular]="true"
+                        [responsiveOptions]="responsiveOptions"
+                        autoplayInterval="3000"
+                    >
+                        <ng-template let-file pTemplate="item">
+                            <div
+                                class="border-1 surface-border border-round m-2 p-3"
+                            >
+                                <div class="mb-3">
+                                    <div class="relative mx-auto">
+                                        <img
+                                            src="{{ file.url }}"
+                                            [alt]="file.name"
+                                            class="w-full border-round"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-carousel>
+                </div>
+                <p-divider layout="horizontal" align="center" *ngIf="!isEdit">
+                    <span class="p-tag"
+                        >Please save the product details before adding
+                        images!</span
+                    >
+                </p-divider>
+                <p-dialog
+                    header="Product Images"
+                    [modal]="true"
+                    [(visible)]="visible"
+                    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+                    [style]="{ width: '40vw' }"
+                    [draggable]="false"
+                    [resizable]="false"
+                >
+                    <div class="card">
                         <div
-                            class="file-preview"
-                            *ngFor="let file of oldFiles; let i = index"
+                            class="dropzone"
+                            (drop)="onDrop($event)"
+                            (dragover)="onDragOver($event)"
+                            (dragleave)="onDragLeave($event)"
+                            (click)="fileInput.click()"
                         >
-                            <img [src]="file.url" alt="Preview" />
-                            <p>{{ file.name }}</p>
-                            <!-- <button class="delete-btn" (click)="removeOldFile(file.id, i)">Delete</button> -->
-                            <i
-                                class="pi pi-trash"
-                                (click)="removeOldFile(file.id, i)"
-                                style="
-                                    font-size: 1.2rem;
-                                    color: red;
-                                    cursor: pointer;
-                                    padding-right: 2%;
+                            <p>
+                                Drag and drop files here, or click to select
+                                files
+                            </p>
+                            <input
+                                #fileInput
+                                type="file"
+                                (change)="onFileChange($event)"
+                                multiple
+                                hidden
+                            />
+                        </div>
+
+                        <!-- Preview for Newly Uploaded Files -->
+                        <div
+                            *ngIf="selectedFiles.length > 0"
+                            class="preview-container"
+                        >
+                            <h4>New Files</h4>
+                            <div
+                                class="file-preview"
+                                *ngFor="
+                                    let file of selectedFiles;
+                                    let i = index
                                 "
-                            ></i>
+                            >
+                                <img
+                                    *ngIf="file.preview"
+                                    [src]="file.preview"
+                                    alt="Preview"
+                                />
+                                <p>{{ file.name }}</p>
+                                <!-- <button class="delete-btn" (click)="removeNewFile(i)">Delete</button> -->
+                                <i
+                                    class="pi pi-trash"
+                                    (click)="removeNewFile(i)"
+                                    style="
+                                        font-size: 1.2rem;
+                                        color: red;
+                                        cursor: pointer;
+                                        padding-right: 2%;
+                                    "
+                                ></i>
+                            </div>
+                        </div>
+
+                        <div
+                            class="mt-5"
+                            style="display: flex; justify-content: center"
+                            *ngIf="selectedFiles.length > 0"
+                        >
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                icon="pi pi-upload"
+                                class="p-button-rounded p-button-outlined"
+                                (click)="onUploadFile(selectedFiles)"
+                            ></button>
+                        </div>
+
+                        <!-- Display Old Files -->
+                        <div
+                            *ngIf="oldFiles.length > 0"
+                            class="preview-container"
+                        >
+                            <h4>Existing Files</h4>
+                            <div
+                                class="file-preview"
+                                *ngFor="let file of oldFiles; let i = index"
+                            >
+                                <img [src]="file.url" alt="Preview" />
+                                <p>{{ file.name }}</p>
+                                <!-- <button class="delete-btn" (click)="removeOldFile(file.id, i)">Delete</button> -->
+                                <i
+                                    class="pi pi-trash"
+                                    (click)="removeOldFile(file.id)"
+                                    style="
+                                        font-size: 1.2rem;
+                                        color: red;
+                                        cursor: pointer;
+                                        padding-right: 2%;
+                                    "
+                                ></i>
+                            </div>
+                        </div>
+                    </div>
+                </p-dialog>
+            </div>
+            <div class="card p-fluid">
+                <h5 class="pb-2">General Information</h5>
+                <div class="field">
+                    <label htmlFor="productName">Product Name</label>
+                    <input
+                        pInputText
+                        placeholder="Enter Product Name"
+                        id="productName"
+                        name="productName"
+                        [(ngModel)]="ProductDetails.ProductName"
+                        #productName="ngModel"
+                        type="text"
+                        required
+                    />
+                    <div
+                        *ngIf="
+                            productName.invalid &&
+                            (productName.dirty || productName.touched)
+                        "
+                        class="error-messages"
+                    >
+                        <div *ngIf="productName.errors?.required">
+                            Product name is required.
                         </div>
                     </div>
                 </div>
-            </p-dialog>
-        </div>
-    </div>
-    <div class="col-12 md:col-7">
-        <div class="card p-fluid">
-            <h5 class="pb-2">Pricing</h5>
-            <div class="field">
-                <label htmlFor="price">Base Price</label>
-                <p-inputGroup class="w-full">
-                    <input
-                        type="text"
-                        pInputText
-                        placeholder="Enter Product Price"
-                        id="price"
-                        name="price"
-                        [(ngModel)]="ProductDetails.Price"
-                        #price="ngModel"
-                    />
-                    <p-inputGroupAddon>₹</p-inputGroupAddon>
-                </p-inputGroup>
-            </div>
-            <div class="field">
-                <label htmlFor="discount">Discount Percentage (%)</label>
-                <p-inputGroup class="w-full">
-                    <input
-                        type="text"
-                        pInputText
-                        placeholder="Enter Product Discount"
-                        id="discount"
-                        name="discount"
-                        [(ngModel)]="ProductDetails.Discount"
-                        #discount="ngModel"
-                    />
-                    <p-inputGroupAddon>%</p-inputGroupAddon>
-                </p-inputGroup>
+                <div class="field">
+                    <label htmlFor="productDescription">Descriprion</label>
+                    <ckeditor
+                        [editor]="Editor"
+                        id="productDescription"
+                        name="productDescription"
+                        [(ngModel)]="ProductDetails.ProductDescription"
+                        #productDescription="ngModel"
+                        [config]="config"
+                    ></ckeditor>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-12 md:col-5">
-        <div class="card p-fluid">
-            <h5 class="pb-2">Category</h5>
-            <div class="field">
-                <label htmlFor="price">Product Category</label>
-                <p-dropdown
-                    [options]="categories"
-                    [(ngModel)]="ProductDetails.Category"
-                    optionLabel="categoryName"
-                    optionValue="categoryId"
-                    [filter]="true"
-                    filterBy="categoryName"
-                    [showClear]="true"
-                    placeholder="Select a Category"
-                    name="category"
-                    id="category"
-                >
-                </p-dropdown>
+        <div class="col-12 xl:col-6">
+            <div class="card p-fluid">
+                <h5 class="pb-2">Pricing</h5>
+                <div class="field">
+                    <label htmlFor="price">Base Price</label>
+                    <p-inputGroup class="w-full">
+                        <input
+                            type="text"
+                            pInputText
+                            placeholder="Enter Product Price"
+                            id="price"
+                            name="price"
+                            [(ngModel)]="ProductDetails.Price"
+                            #price="ngModel"
+                            required
+                        />
+                        <p-inputGroupAddon>₹</p-inputGroupAddon>
+                    </p-inputGroup>
+                    <div
+                        *ngIf="price.invalid && (price.dirty || price.touched)"
+                        class="error-messages"
+                    >
+                        <div *ngIf="price.errors?.required">
+                            Product price is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label htmlFor="discount">Discount Percentage (%)</label>
+                    <p-inputGroup class="w-full">
+                        <input
+                            type="number"
+                            pInputText
+                            placeholder="Enter Product Discount"
+                            id="discount"
+                            name="discount"
+                            [(ngModel)]="ProductDetails.Discount"
+                            min="0"
+                            max="100"
+                            #discount="ngModel"
+                        />
+                        <p-inputGroupAddon>%</p-inputGroupAddon>
+                    </p-inputGroup>
+                    <div *ngIf="discount.invalid && (discount.dirty || discount.touched)" class="error-messages">
+                        <div *ngIf="discount.errors?.min">Discount must be at least 0%.</div>
+                        <div *ngIf="discount.errors?.max">Discount cannot exceed 100%.</div>
+                    </div>
+                </div>
             </div>
+            <div class="card p-fluid" style="min-height: 304px">
+                <h5 class="pb-2">Category</h5>
+                <div class="field">
+                    <label htmlFor="price">Product Category</label>
+                    <p-dropdown
+                        [options]="categories"
+                        [(ngModel)]="ProductDetails.Category"
+                        optionLabel="categoryName"
+                        optionValue="categoryId"
+                        [filter]="true"
+                        filterBy="categoryName"
+                        [showClear]="true"
+                        placeholder="Select a Category"
+                        name="category"
+                        id="category"
+                        #category="ngModel"
+                        (onChange)="getBrands(ProductDetails.Category)"
+                        required
+                    >
+                    </p-dropdown>
+                    <div
+                        *ngIf="
+                            category.invalid &&
+                            (category.dirty || category.touched)
+                        "
+                        class="error-messages"
+                    >
+                        <div *ngIf="category.errors?.required">
+                            Product category is required.
+                        </div>
+                    </div>
+                </div>
 
-            <div class="field">
-                <label htmlFor="price">Product Brand</label>
-                <p-dropdown
-                    [options]="brands"
-                    [(ngModel)]="ProductDetails.Brand"
-                    optionLabel="brandName"
-                    optionValue="brandId"
-                    [filter]="true"
-                    filterBy="brandName"
-                    [showClear]="true"
-                    placeholder="Select a Brand"
-                    id="brand"
-                    name="brand"
+                <div class="field">
+                    <label htmlFor="price">Product Brand</label>
+                    <p-dropdown
+                        [options]="brands"
+                        [(ngModel)]="ProductDetails.Brand"
+                        optionLabel="brandName"
+                        optionValue="brandId"
+                        [filter]="true"
+                        filterBy="brandName"
+                        [showClear]="true"
+                        placeholder="Select a Brand"
+                        id="brand"
+                        name="brand"
+                        #brand="ngModel"
+                        required
+                    >
+                    </p-dropdown>
+                    <div
+                        *ngIf="brand.invalid && (brand.dirty || brand.touched)"
+                        class="error-messages"
+                    >
+                        <div *ngIf="brand.errors?.required">
+                            Product brand is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-fluid">
+                <h5>Inventory Details</h5>
+                <div
+                    style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    "
                 >
-                </p-dropdown>
+                    <div>
+                        <div class="field">
+                            <label htmlFor="productName">Product SKU</label>
+                            <input
+                                pInputText
+                                placeholder="Enter Product SKU"
+                                id="sku"
+                                name="sku"
+                                [(ngModel)]="ProductDetails.SKU"
+                                #sku="ngModel"
+                                type="text"
+                                required
+                            />
+                            <div
+                                *ngIf="
+                                    sku.invalid && (sku.dirty || sku.touched)
+                                "
+                                class="error-messages"
+                            >
+                                <div *ngIf="sku.errors?.required">
+                                    Product SKU is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="field" style="margin-left: 15px">
+                            <label htmlFor="productName"
+                                >Product Quantity</label
+                            >
+                            <input
+                                pInputText
+                                placeholder="Enter Product Quantity"
+                                id="stockStatus"
+                                name="stockStatus"
+                                [(ngModel)]="ProductDetails.StockStatus"
+                                #stockStatus="ngModel"
+                                type="text"
+                                [class]="'ps-2'"
+                                required
+                            />
+                            <div
+                                *ngIf="
+                                    stockStatus.invalid &&
+                                    (stockStatus.dirty || stockStatus.touched)
+                                "
+                                class="error-messages"
+                            >
+                                <div *ngIf="stockStatus.errors?.required">
+                                    Product stock is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-12 md:col-7">
-        <div class="card p-fluid">
-            <h5>Inventory Details</h5>
-            <div class="grid formgrid">
-                <div class="col-12 lg:col-6">
-                    <input
-                        type="text"
-                        pInputText
-                        placeholder="Enter Product SKU"
-                        id="sku"
-                        name="sku"
-                        [(ngModel)]="ProductDetails.SKU"
-                    />
-                </div>
-                <div class="col-12 lg:col-6">
-                    <input
-                        type="text"
-                        pInputText
-                        placeholder="Enter Product Quantity"
-                        id="stockStatus"
-                        name="stockStatus"
-                        [(ngModel)]="ProductDetails.StockStatus"
-                    />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</form>
