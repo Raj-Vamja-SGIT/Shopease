@@ -32,39 +32,41 @@ export class RegisterComponent {
         private router: Router
     ) {}
 
-    RegisterUser(registerForm: any) {
+    onRegister(registerForm: any) {
         this.loading = true;
-
+        if (!registerForm.valid) {
+            this.toastr.error('Error!', 'Please enter appropriate details!');
+            this.loading = false;
+            return;
+        }
         this.User.UserName = registerForm.form.value.UserName;
         this.User.UserEmail = registerForm.form.value.UserEmail;
         this.User.Password = registerForm.form.value.Password;
-
-        this.commonservice.register(this.User).subscribe(
-            (response) => {
-                if (response.success) {
-                    this.toastr.success(
-                        'Success',
-                        'User Register successfully'
-                    );
-                    this.loading = true;
-
-                    setTimeout(() => {
-                        this.router.navigate(['auth/login']);
-                    }, 1200);
-                } else {
+        setTimeout(() => {
+            this.commonservice.register(this.User).subscribe(
+                (response) => {
+                    if (response.success) {
+                        this.toastr.success(
+                            'Success',
+                            'User Register successfully'
+                        );
+                        this.loading = false;
+                        setTimeout(() => {
+                            this.router.navigate(['auth/login']);
+                        }, 1200);
+                    } else {
+                        this.toastr.error('Error!', response.message);
+                        this.loading = false;
+                    }
+                },
+                (error) => {
                     this.toastr.error(
                         'Error!',
-                        'Something went wrong, please try again later.'
+                        'Username ,Email or  password are incorrcet.'
                     );
                     this.loading = false;
                 }
-            },
-            (error) => {
-                this.toastr.error(
-                    'Error!',
-                    'Username ,Email or  password are incorrcet.'
-                );
-            }
-        );
+            );
+        }, 500);
     }
 }

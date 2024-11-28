@@ -1,0 +1,48 @@
+.prod-desc {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+}
+
+.actual-price {
+    text-decoration: line-through;
+    color: gray; /* Optional: To visually differentiate the strikethrough price */
+  }
+
+.scroll-container {
+    width: 100%; /* Set width as needed */
+    height: 40px; /* Set height to define the visible area for scrolling text */
+    overflow: hidden; /* Hide anything that goes outside the container */
+}
+
+.scroll-text {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scroll-left 7s linear infinite, fade-out 7s linear infinite;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(100%);
+    }
+    50% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
