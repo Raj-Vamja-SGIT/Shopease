@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/demo/service/common.service';
 import { ToastrMessageService } from 'src/app/demo/service/toastr.service';
 import { Brands } from '../../../common/models/model';
-import { forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
     ClassicEditor,
@@ -16,13 +15,17 @@ import {
     Italic,
     Link,
     List,
-    MediaEmbed,
     Paragraph,
     Table,
     Undo,
 } from 'ckeditor5';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { EncryptionService } from 'src/app/demo/service/encryption.service';
+import {
+    CdkDragDrop,
+    moveItemInArray,
+    transferArrayItem,
+} from '@angular/cdk/drag-drop';
 
 interface UploadEvent {
     originalEvent: Event;
@@ -83,7 +86,6 @@ export class ProductMasterComponent {
             '|',
             'link',
             'insertTable',
-            'mediaEmbed',
             '|',
             'bulletedList',
             'numberedList',
@@ -99,7 +101,6 @@ export class ProductMasterComponent {
             Italic,
             Link,
             List,
-            MediaEmbed,
             Paragraph,
             Table,
             Undo,
@@ -111,7 +112,8 @@ export class ProductMasterComponent {
         private readonly toast: ToastrMessageService,
         private readonly router: Router,
         private readonly route: ActivatedRoute,
-        private readonly encryptionService: EncryptionService
+        private readonly encryptionService: EncryptionService,
+        private readonly confirmationService: ConfirmationService
     ) {
         this._id = this.route.snapshot.params['id'];
         if (this._id > 0 && this._id != null) {
@@ -236,11 +238,14 @@ export class ProductMasterComponent {
 
                             for (let i = 0; i < imgs.length; i++) {
                                 const id = imgs[i].imageId;
+                                const imageOrderNumber =
+                                    imgs[i].imageOrderNumber;
                                 const name = this.extractOriginalFileName(
                                     imgs[i].imageUrls
                                 );
 
                                 filesDetails.push({
+                                    imageOrderNumber: imageOrderNumber,
                                     id: id,
                                     name: name,
                                     url: this.baseUrl + imgs[i].imageUrls,
@@ -320,7 +325,7 @@ export class ProductMasterComponent {
                         if (response.success) {
                             this.toast.success('Success!', response.message);
                             files.length = 0;
-                            this.getProductImages();
+                            this.getProductDetails();
                             this.isLoading = false;
                         } else {
                             this.toast.error('Error!', response.message);
@@ -343,7 +348,31 @@ export class ProductMasterComponent {
         this.selectedFiles.splice(index, 1);
     }
 
-    removeOldFile(id: number) {}
+    removeOldFile(id: number) {
+        this.confirmationService.confirm({
+            header: 'Are you sure?',
+            message: 'Please confirm to proceed.',
+            accept: () => {
+                if (id > 0) {
+                    this.isLoading = true;
+                    this.service.deleteProductImage(id).subscribe((response) => {
+                        if(response.success){
+                            this.toast.success('Success!', response.message);
+                            this.isLoading = false;
+                            this.getProductImages();
+                        }
+                        else{
+                            this.toast.error('Error!', response.message);
+                            this.isLoading = false;
+                        }
+                    })
+                }
+            },
+            reject: () => {
+                this.toast.error('Rejected', 'You have rejected.');
+            },
+        });
+    }
 
     onSubmit(productDetailsForm: any) {
         if (productDetailsForm.invalid) {
@@ -400,5 +429,52 @@ export class ProductMasterComponent {
                 this.isLoading = false;
             }
         );
+    }
+
+    drop(event: CdkDragDrop<any[]>) {
+        if (this.oldFiles === event.container.data) {
+            moveItemInArray(
+                event.container.data,
+                event.previousIndex,
+                event.currentIndex
+            );
+        } else {
+            transferArrayItem(
+                event.previousContainer.data,
+                event.container.data,
+                event.previousIndex,
+                event.currentIndex
+            );
+        }
+
+        const updatedOrder = event.container.data.map((item, index) => ({
+            ImageId: item.id,
+            ImageOrderNumber: index + 1,
+        }));
+        if (updatedOrder.length > 0) {
+            this.isLoading = true;
+
+            const formData = new FormData();
+            formData.append('updatedOrder', JSON.stringify(updatedOrder));
+
+            this.service.updateImageOrder(formData).subscribe(
+                (response) => {
+                    if (response.success) {
+                        this.toast.success('Success!', response.message);
+                        this.isLoading = false;
+                    } else {
+                        this.toast.error('Error!', response.message);
+                        this.isLoading = false;
+                    }
+                },
+                (error) => {
+                    this.toast.error(
+                        'Error!',
+                        'There is an error while updating the image order!'
+                    );
+                    this.isLoading = false;
+                }
+            );
+        }
     }
 }

@@ -32,6 +32,8 @@ export class CommonService {
             saveProduct: 'api/Product/AddUpdateProduct',
             addProductImage: 'api/Product/AddProductImages',
             getProductImages: 'api/Product/GetProductImages',
+            updateImageOrder: 'api/Product/UpdateImageOrder',
+            deleteProductImage: 'api/Product/DeleteProductImage',
         },
         dashBoard: {
             getDashboardData: 'api/Admin/GetDashboardData',
@@ -188,5 +190,18 @@ export class CommonService {
         });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getProductImages}?productId=${productId}`;
         return this.http.get<any>(url, { headers });
+    }
+
+    updateImageOrder(formData: FormData): Observable<any> {
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.updateImageOrder}`;
+        return this.http.post<any>(url, formData);
+    }
+
+    deleteProductImage(id: any): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.deleteProductImage}?imageId=${id}`;
+        return this.http.post(url, { headers });
     }
 }

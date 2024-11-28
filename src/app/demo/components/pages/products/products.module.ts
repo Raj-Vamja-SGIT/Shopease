@@ -23,6 +23,10 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { TooltipModule } from 'primeng/tooltip';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { DividerModule } from 'primeng/divider';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { SkeletonModule } from 'primeng/skeleton';
 @NgModule({
     declarations: [ProductsComponent, ProductMasterComponent],
     imports: [
@@ -47,7 +51,11 @@ import { DividerModule } from 'primeng/divider';
         CKEditorModule,
         TooltipModule,
         BreadcrumbModule,
-        DividerModule
+        DividerModule,
+        DragDropModule,
+        ConfirmDialogModule,
+        SkeletonModule
     ],
+    providers: [ConfirmationService]
 })
 export class ProductsModule {}
