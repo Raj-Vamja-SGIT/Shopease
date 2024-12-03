@@ -16,6 +16,10 @@ const routes: Routes = [];
                 path: 'master',
                 component: ProductMasterComponent,
             },
+            {
+                path: 'master/:id',
+                component: ProductMasterComponent,
+            },
         ]),
     ],
     exports: [RouterModule],
