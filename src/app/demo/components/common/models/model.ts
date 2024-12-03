@@ -105,3 +105,11 @@ export interface Categories {
     categoryId?: number;
     categoryName?: string;
 }
+
+export interface SubCategory {
+    categoryId?: number;
+    subCategoryId?: number;
+    subCategoryName?: string;
+    isActive?: boolean;
+    isDeleted?: boolean;
+}

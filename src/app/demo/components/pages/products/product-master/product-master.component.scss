@@ -1,3 +1,11 @@
+.img-name {
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    white-space: normal !important;
+}
+
 .container {
     position: relative;
     display: flex;

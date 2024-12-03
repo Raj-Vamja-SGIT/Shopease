@@ -103,6 +103,7 @@
                                             src="{{ file.url }}"
                                             [alt]="file.name"
                                             class="w-full border-round"
+                                            style="aspect-ratio: 3/4;"
                                         />
                                     </div>
                                 </div>
@@ -164,7 +165,9 @@
                                     [src]="file.preview"
                                     alt="Preview"
                                 />
-                                <p>{{ file.name }}</p>
+                                <div class="img-name">
+                                    <p >{{ file.name }}</p>
+                                </div>    
                                 <!-- <button class="delete-btn" (click)="removeNewFile(i)">Delete</button> -->
                                 <i
                                     class="pi pi-trash"
@@ -235,12 +238,12 @@
                                 <div class="file-preview" *ngFor="let file of oldFiles" cdkDrag>
                                     <span class="drag-handle mr-2" cdkDragHandle>☰</span>
                                     <img [src]="file.url" alt="Preview" />
-                                    <p>{{ file.name }}</p>
+                                    <p class="img-name">{{ file.name }}</p>
                                     <i class="pi pi-trash" (click)="removeOldFile(file.id)" style="
                                         font-size: 1.2rem;
                                         color: red;
                                         cursor: pointer;
-                                        padding-right: 2%;
+                                        padding: 0 2% 0 2%;
                                     "
                                     ></i>
                                 </div>

@@ -22,18 +22,24 @@ export class CommonService {
         },
         admin: {
             getUsers: 'api/Admin/GetUsers',
-            addUser: 'api/Admin/AddUser',
-            deleteUser: 'api/Admin/DeleteUser',
-            deleteMultiUser: 'api/Admin/DeleteMultiUser',
             getProducts: 'api/Product/GetProducts',
             getBrands: 'api/Product/GetBrands',
             getCategories: 'api/Product/GetCategories',
             getProductDetails: 'api/Product/GetProductDetails',
+            getSubcategories: 'api/Product/GetSubCategories',
+            getSubcategoryDetails: 'api/Product/GetSubcategoryDetais',
+            getProductImages: 'api/Product/GetProductImages',
+
+            addUser: 'api/Admin/AddUser',
             saveProduct: 'api/Product/AddUpdateProduct',
             addProductImage: 'api/Product/AddProductImages',
-            getProductImages: 'api/Product/GetProductImages',
             updateImageOrder: 'api/Product/UpdateImageOrder',
+            addUpdateSubcategory: 'api/Product/AddUpdateSubCategory',
+
+            deleteUser: 'api/Admin/DeleteUser',
+            deleteMultiUser: 'api/Admin/DeleteMultiUser',
             deleteProductImage: 'api/Product/DeleteProductImage',
+            deleteSubCategory: 'api/Product/DeleteSubCategory',
         },
         dashBoard: {
             getDashboardData: 'api/Admin/GetDashboardData',
@@ -202,6 +208,35 @@ export class CommonService {
             'Content-Type': 'application/json',
         });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.deleteProductImage}?imageId=${id}`;
+        return this.http.post(url, { headers });
+    }
+
+    getSubCategories(): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getSubcategories}`;
+        return this.http.get(url, { headers });
+    }
+
+    getSubCategoryDetails(subCategoryId: any): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getSubcategoryDetails}?subCategoryId=${subCategoryId}`;
+        return this.http.get(url, { headers });
+    }
+
+    addUpdateSubCategory(formData: FormData): Observable<any> {
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.addUpdateSubcategory}`;
+        return this.http.post<any>(url, formData);
+    }
+
+    deleteSubCategory(subCategoryId: any): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.deleteSubCategory}?subCategoryId=${subCategoryId}`;
         return this.http.post(url, { headers });
     }
 }

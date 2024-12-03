@@ -23,6 +23,13 @@ import { RouterModule } from '@angular/router';
                         (m) => m.ProductsModule
                     ),
             },
+            {
+                path: 'sub-category',
+                loadChildren: () =>
+                    import('./sub-category/sub-category.module').then(
+                        (m) => m.SubCategoryModule
+                    ),
+            },
             { path: '**', redirectTo: '/notfound' },
         ]),
     ],

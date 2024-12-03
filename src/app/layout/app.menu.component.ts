@@ -65,5 +65,17 @@ export class AppMenuComponent implements OnInit {
                 ],
             });
         }
+        if (this.userRole == 1 || 2) {
+            this.model.push({
+                label: 'Category',
+                items: [
+                    {
+                        label: 'Sub-Category',
+                        icon: 'pi pi-th-large',
+                        routerLink: ['pages/sub-category'],
+                    },
+                ],
+            });
+        }
     }
 }
