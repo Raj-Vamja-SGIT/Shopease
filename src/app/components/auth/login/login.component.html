@@ -1,0 +1,83 @@
+<h5>Welcome Back!</h5>
+<p class="text-primary">Sign in to continue</p>
+<form [formGroup]="LoginForm">
+  <div class="form-group text-left">
+    <label for="email">Email</label>
+    <input
+      type="email"
+      id="email"
+      class="form-control"
+      placeholder="Enter your email"
+      name="email"
+      formControlName="email"
+      [ngClass]="{
+        'is-invalid': fc.email.invalid && fc.email.touched
+      }"
+    />
+    <div class="text-danger" *ngIf="fc.email.touched && fc.email.invalid">
+      <small *ngIf="fc.email.errors?.required">Email is required...</small>
+      <small *ngIf="fc.email.errors?.email"
+        >Please enter valid email address</small
+      >
+    </div>
+  </div>
+  <div class="form-group text-left">
+    <label for="password">Password</label>
+    <div class="input-group">
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        placeholder="Enter Password"
+        name="password"
+        formControlName="password"
+        [ngClass]="{
+          'is-invalid': fc.password.touched && fc.password.invalid
+        }"
+      />
+      <div class="input-group-append">
+        <span class="input-group-text">
+          <i class="fa fa-eye"></i>
+        </span>
+      </div>
+    </div>
+    <div class="text-danger" *ngIf="fc.password.touched && fc.password.invalid">
+      <small *ngIf="fc.password.errors?.required"
+        >Password is required...</small
+      >
+      <small *ngIf="fc.password.errors?.minLength"
+        >Please enter valid password</small
+      >
+      <small *ngIf="fc.password.errors?.maxLength">
+        Please enter valid password
+      </small>
+    </div>
+  </div>
+  <div class="form-group d-flex justify-content-between">
+    <div class="">
+      <input
+        name="rememberMe"
+        type="checkbox"
+        id="remember"
+        formControlName="rememberMe"
+      />
+      <label for="remember" class="ml-1 small">Remember me</label>
+    </div>
+    <a routerLink="/auth/forgot-password" class="small text-danger"
+      >Forgot password?</a
+    >
+  </div>
+  <button
+    [disabled]="LoginForm.invalid"
+    routerLink="/home"
+    type="submit"
+    class="btn btn-primary w-100"
+  >
+    Sign In
+  </button>
+</form>
+<div class="divider mt-3">OR</div>
+<p class="small mt-3">
+  Don't have an account?
+  <a routerLink="/auth/register" class="text-danger">Register</a>
+</p>
