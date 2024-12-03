@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+=======
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+>>>>>>> ce0eaddeb013ee01f022291ea15c0f805bc7b1f5
 
 # Compiled output
 /dist
@@ -21,11 +25,16 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
+<<<<<<< HEAD
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+=======
+.vscode
+.vscode/*
+>>>>>>> ce0eaddeb013ee01f022291ea15c0f805bc7b1f5
 .history/*
 
 # Miscellaneous
@@ -40,3 +49,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+<<<<<<< HEAD
+=======
+
+>>>>>>> ce0eaddeb013ee01f022291ea15c0f805bc7b1f5

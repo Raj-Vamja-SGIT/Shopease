@@ -1,0 +1,61 @@
+<app-loader *ngIf="isLoading"></app-loader>
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<h5>Products</h5>
+			<p-dataView #dv [value]="products" [paginator]="true" [rows]="15" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+				<ng-template pTemplate="header">
+					<div class="flex flex-column md:flex-row md:justify-content-between gap-2">
+						<p-dropdown [options]="sortOptions" placeholder="Sort By Price" (onChange)="onSortChange($event)"></p-dropdown>
+						<span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input type="search" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)">
+                        </span>	
+						<button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="onCreateNew()"></button>
+					</div>
+				</ng-template>
+
+				<ng-template let-products pTemplate="gridItem">
+					<div class="grid grid-nogutter">
+					<div class="col-12 md:col-4" *ngFor="let product of products">
+						<div class="card m-3 border-1 surface-border cursor-pointer" (click)="onProductClick(product.productId)">
+							<div class="flex flex-wrap gap-2 align-items-center justify-content-between mb-2">
+								<div class="flex align-items-center">
+									<i class="pi pi-tag mr-2"></i>
+									<span class="font-semibold">{{product.category}}</span>
+								</div>
+								<span [class]="'product-badge status-' + product.stockStatus.toLowerCase()">{{product.stockStatus}}</span>
+							</div>
+							<div class="flex flex-column align-items-center text-center mb-3">
+								<img [src]="product.imageURL ? baseUrl + product.imageURL : 'assets/layout/images/shop.png'" [alt]="product.productName" [ngClass]="{'shadow-2': product.imageURL, 'shadow-none': !product.imageURL}" class="w-9 shadow-2 my-3 mx-0" style="max-width: 301px; max-height: 301px;"/>
+								
+								<div class="font-bold mb-2 font-bold">
+									<div class="scroll-container">
+									  <span
+										[ngClass]="{'scroll-text': product.productName.length }"
+										style="word-wrap: break-word; white-space: pre-wrap;"
+									  >
+										{{ product.productName }}
+									  </span>
+									</div>
+								  </div>								  
+															  
+								<div class="mb-3 prod-desc">{{product.productDescription}}</div>
+								<p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+							</div>
+							<div class="flex align-items-center" *ngIf="product.discount == 0">
+								<span class="text-xl">₹{{product.price}}</span>
+								<!-- <p-button icon="pi pi-shopping-cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></p-button> -->
+							</div>
+							<div class="flex align-items-center" *ngIf="product.discount > 0">
+								<span class="text-xl">₹{{product.discountPrice}}</span>
+								<span class="mx-2">M.R.P:<span class="actual-price"> ₹{{product.price}} </span> <span class="ml-1">({{product.discount}}% off)</span></span>
+							</div>
+						</div>
+					</div>
+					</div>
+				</ng-template>
+			</p-dataView>
+		</div>
+	</div>
+</div>

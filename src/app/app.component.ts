@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -35,4 +36,20 @@ export class AppComponent implements OnInit {
   scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+=======
+import { Component, OnInit } from '@angular/core';
+import { PrimeNGConfig } from 'primeng/api';
+
+@Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html'
+})
+export class AppComponent implements OnInit {
+
+    constructor(private primengConfig: PrimeNGConfig) { }
+
+    ngOnInit() {
+        this.primengConfig.ripple = true;
+    }
+>>>>>>> ce0eaddeb013ee01f022291ea15c0f805bc7b1f5
 }
