@@ -82,26 +82,17 @@ export interface CountData {
 }
 
 export interface Product {
-    ProductId?: any;
+    ProductId?: number;
     ProductName?: string;
     ProductDescription?: string;
     Price?: any;
     Discount?: any;
     StockStatus?: any;
     SKU?: any;
-    Category?: any;
-    Brand?: any;
-    Rating?: number;
-    ImageUrls?: '';
-    ImageFiles?: any;
-}
-
-export interface Brands {
     BrandId?: number;
-    BrandName?: string;
-}
-
-export interface Categories {
-    categoryId?: number;
-    categoryName?: string;
+    Category?: number;
+    Brand?: number;
+    Rating?: number;
+    PrimaryImageUrl?: '';
+    PrimaryImageFile?: any;
 }

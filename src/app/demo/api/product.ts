@@ -2,15 +2,15 @@ interface InventoryStatus {
     label: string;
     value: string;
 }
-export interface Products {
+export interface Product {
     id?: string;
     code?: string;
-    productName?: string;
+    name?: string;
     description?: string;
     price?: number;
     quantity?: number;
     inventoryStatus?: InventoryStatus;
     category?: string;
-    image?: string; 
+    image?: string;
     rating?: number;
 }

@@ -1,471 +1,83 @@
-<form #productDetailsForm="ngForm" (ngSubmit)="onSubmit(productDetailsForm)">
-    <div class="grid">
-        <div class="col-12">
-            <div
-                style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                "
-            >
-                <p-breadcrumb class="max-w-full" [model]="items">
-                    <ng-template pTemplate="item" let-item>
-                        <ng-container *ngIf="item.route; else elseBlock">
-                            <a
-                                [routerLink]="item.route"
-                                class="p-menuitem-link"
-                            >
-                                <span
-                                    [ngClass]="[
-                                        item.icon ? item.icon : '',
-                                        'text-color'
-                                    ]"
-                                ></span>
-                                <span class="text-primary font-semibold">{{
-                                    item.label
-                                }}</span>
-                            </a>
-                        </ng-container>
-                        <ng-template #elseBlock>
-                            <a [href]="item.url">
-                                <span class="text-color">{{ item.label }}</span>
-                            </a>
-                        </ng-template>
-                    </ng-template>
-                </p-breadcrumb>
-                <div
-                    style="
-                        display: flex;
-                        justify-content: end;
-                        align-items: end;
-                        height: 100%;
-                    "
-                >
-                    <button
-                        pButton
-                        pRipple
-                        label="Submit"
-                        type="submit"
-                        icon="pi pi-plus"
-                        class="p-button mr-2"
-                    ></button>
-                </div>
+<div class="grid">
+    <div class="col-12 md:col-7">
+        <div class="card p-fluid">
+            <h5 class="pb-2">General Information</h5>
+            <div class="field">
+                <label htmlFor="productName">Product Name</label>
+                <input
+                    pInputText
+                    placeholder="Enter Product Name"
+                    id="productName"
+                    type="text"
+                />
+            </div>
+            <div class="field">
+                <label htmlFor="productDescription">Descriprion</label>
+                <textarea
+                    rows="2"
+                    cols="30"
+                    placeholder="Enter Product Descriprion"
+                    pInputTextarea
+                ></textarea>
             </div>
         </div>
-        <div class="col-12 xl:col-6">
-            <div
-                class="card p-fluid"
-                [ngClass]="{ disabled: !isEdit }"
-                style="min-height: 257px"
-            >
-                <div
-                    style="
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                    "
-                >
-                    <div>
-                        <h5 class="pb-2">Product Media</h5>
-                    </div>
-                    <div>
-                        <button
-                            pButton
-                            pRipple
-                            pTooltip="Add Product Images"
-                            tooltipPosition="left"
-                            icon="pi pi-images"
-                            class="p-button-text add-product-button"
-                            style="width: auto"
-                            (click)="showDialog()"
-                            type="button"
-                        ></button>
-                    </div>
-                </div>
-                <div class="" style="margin-bottom: 0px">
-                    <p-skeleton *ngIf="isLoading" width="100%" height="250px" />
-                    <p-carousel
-                        [value]="oldFiles"
-                        [numVisible]="3"
-                        [numScroll]="3"
-                        [circular]="true"
-                        [responsiveOptions]="responsiveOptions"
-                        autoplayInterval="3000"
-                        *ngIf="!isLoading"
-                    >
-                        <ng-template let-file pTemplate="item">
-                            <div
-                                class="border-1 surface-border border-round m-2 p-3"
-                            >
-                                <div class="mb-3">
-                                    <div class="relative mx-auto">
-                                        <img
-                                            src="{{ file.url }}"
-                                            [alt]="file.name"
-                                            class="w-full border-round"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-template>
-                    </p-carousel>
-                </div>
-                <p-divider layout="horizontal" align="center" *ngIf="!isEdit">
-                    <span class="p-tag"
-                        >Please save the product details before adding
-                        images!</span
-                    >
-                </p-divider>
-                <p-dialog
-                    header="Product Images"
-                    [modal]="true"
-                    [(visible)]="visible"
-                    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-                    [style]="{ width: '40vw' }"
-                    [draggable]="false"
-                    [resizable]="false"
-                >
-                    <div class="card">
-                        <div
-                            class="dropzone"
-                            (drop)="onDrop($event)"
-                            (dragover)="onDragOver($event)"
-                            (dragleave)="onDragLeave($event)"
-                            (click)="fileInput.click()"
-                        >
-                            <p>
-                                Drag and drop files here, or click to select
-                                files
-                            </p>
-                            <input
-                                #fileInput
-                                type="file"
-                                (change)="onFileChange($event)"
-                                multiple
-                                hidden
-                            />
-                        </div>
-
-                        <!-- Preview for Newly Uploaded Files -->
-                        <div
-                            *ngIf="selectedFiles.length > 0"
-                            class="preview-container"
-                        >
-                            <h4>New Files</h4>
-                            <div
-                                class="file-preview"
-                                *ngFor="
-                                    let file of selectedFiles;
-                                    let i = index
-                                "
-                            >
-                                <img
-                                    *ngIf="file.preview"
-                                    [src]="file.preview"
-                                    alt="Preview"
-                                />
-                                <p>{{ file.name }}</p>
-                                <!-- <button class="delete-btn" (click)="removeNewFile(i)">Delete</button> -->
-                                <i
-                                    class="pi pi-trash"
-                                    (click)="removeNewFile(i)"
-                                    style="
-                                        font-size: 1.2rem;
-                                        color: red;
-                                        cursor: pointer;
-                                        padding-right: 2%;
-                                    "
-                                ></i>
-                            </div>
-                        </div>
-
-                        <div
-                            class="mt-5"
-                            style="display: flex; justify-content: center"
-                            *ngIf="selectedFiles.length > 0"
-                        >
-                            <button
-                                pButton
-                                pRipple
-                                type="button"
-                                icon="pi pi-upload"
-                                class="p-button-rounded p-button-outlined"
-                                (click)="onUploadFile(selectedFiles)"
-                            ></button>
-                        </div>
-
-                        <!-- Display Old Files -->
-                        <div
-                            *ngIf="oldFiles.length > 0"
-                            class="preview-container"
-                        >
-                            <h4>Existing Files</h4>
-                            <!-- Delete image confirmation dialog -->
-                            <p-confirmDialog #cd>
-                                <ng-template pTemplate="headless" let-message>
-                                    <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
-                                        <div class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem">
-                                            <i class="pi pi-question text-5xl"></i>
-                                        </div>
-                                        <span class="font-bold text-2xl block mb-2 mt-4">
-                                            {{ message.header }}
-                                        </span>
-                                        <p class="mb-0">{{ message.message }}</p>
-                                        <div class="flex align-items-center gap-2 mt-4">
-                                            <button 
-                                                pButton 
-                                                label="Delete" 
-                                                type="button"
-                                                (click)="cd.accept()" 
-                                                class="w-8rem">
-                                            </button>
-                                            <button 
-                                                pButton 
-                                                label="Cancel"
-                                                (click)="cd.reject()" 
-                                                type="button"
-                                                class="p-button-outlined w-8rem ">
-                                            </button>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </p-confirmDialog>
-
-                            <div cdkDropList [cdkDropListData]="oldFiles" class="file-preview-container" (cdkDropListDropped)="drop($event)">
-                                <div class="file-preview" *ngFor="let file of oldFiles" cdkDrag>
-                                    <span class="drag-handle mr-2" cdkDragHandle>☰</span>
-                                    <img [src]="file.url" alt="Preview" />
-                                    <p>{{ file.name }}</p>
-                                    <i class="pi pi-trash" (click)="removeOldFile(file.id)" style="
-                                        font-size: 1.2rem;
-                                        color: red;
-                                        cursor: pointer;
-                                        padding-right: 2%;
-                                    "
-                                    ></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </p-dialog>
-            </div>
-            <div class="card p-fluid">
-                <h5 class="pb-2">General Information</h5>
-                <p-skeleton *ngIf="isLoading" width="100%" height="200px" />
-                <div class="field" *ngIf="!isLoading">
-                    <label htmlFor="productName">Product Name</label>
+    </div>
+    <div class="col-12 md:col-5">
+        <div class="card p-fluid">
+            <h5 class="pb-2">Product Media</h5>
+        </div>
+    </div>
+    <div class="col-12 md:col-7">
+        <div class="card p-fluid">
+            <h5 class="pb-2">Pricing</h5>
+            <div class="field">
+                <label htmlFor="price">Base Price</label>
+                <p-inputGroup class="w-full">
                     <input
-                        pInputText
-                        placeholder="Enter Product Name"
-                        id="productName"
-                        name="productName"
-                        [(ngModel)]="ProductDetails.ProductName"
-                        #productName="ngModel"
                         type="text"
-                        required
+                        pInputText
+                        placeholder="Enter Product Price"
                     />
-                    <div
-                        *ngIf="
-                            productName.invalid &&
-                            (productName.dirty || productName.touched)
-                        "
-                        class="error-messages"
-                    >
-                        <div *ngIf="productName.errors?.required">
-                            Product name is required.
-                        </div>
-                    </div>
-                </div>
-                <div class="field" *ngIf="!isLoading">
-                    <label htmlFor="productDescription">Descriprion</label>
-                    <ckeditor
-                        [editor]="Editor"
-                        id="productDescription"
-                        name="productDescription"
-                        [(ngModel)]="ProductDetails.ProductDescription"
-                        #productDescription="ngModel"
-                        [config]="config"
-                    ></ckeditor>
-                </div>
+                    <p-inputGroupAddon>₹</p-inputGroupAddon>
+                </p-inputGroup>
+            </div>
+            <div class="field">
+                <label htmlFor="discount">Discount Percentage (%)</label>
+                <p-inputGroup class="w-full">
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Enter Product Discount"
+                    />
+                    <p-inputGroupAddon>%</p-inputGroupAddon>
+                </p-inputGroup>
             </div>
         </div>
-        <div class="col-12 xl:col-6">
-            <div class="card p-fluid">
-                <h5 class="pb-2">Pricing</h5>
-                <p-skeleton *ngIf="isLoading" width="100%" height="180px" />
-                <div class="field" *ngIf="!isLoading">
-                    <label htmlFor="price">Base Price</label>
-                    <p-inputGroup class="w-full">
-                        <input
-                            type="text"
-                            pInputText
-                            placeholder="Enter Product Price"
-                            id="price"
-                            name="price"
-                            [(ngModel)]="ProductDetails.Price"
-                            #price="ngModel"
-                            required
-                        />
-                        <p-inputGroupAddon>₹</p-inputGroupAddon>
-                    </p-inputGroup>
-                    <div
-                        *ngIf="price.invalid && (price.dirty || price.touched)"
-                        class="error-messages"
-                    >
-                        <div *ngIf="price.errors?.required">
-                            Product price is required.
-                        </div>
-                    </div>
+    </div>
+    <div class="col-12 md:col-5">
+        <div class="card p-fluid">
+            <h5 class="pb-2">Category</h5>
+        </div>
+    </div>
+    <div class="col-12 md:col-7">
+        <div class="card p-fluid">
+            <h5>Inventory Details</h5>
+            <div class="grid formgrid">
+                <div class="col-12 lg:col-6">
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Enter Product SKU"
+                    />
                 </div>
-                <div class="field" *ngIf="!isLoading">
-                    <label htmlFor="discount">Discount Percentage (%)</label>
-                    <p-inputGroup class="w-full">
-                        <input
-                            type="number"
-                            pInputText
-                            placeholder="Enter Product Discount"
-                            id="discount"
-                            name="discount"
-                            [(ngModel)]="ProductDetails.Discount"
-                            min="0"
-                            max="100"
-                            #discount="ngModel"
-                        />
-                        <p-inputGroupAddon>%</p-inputGroupAddon>
-                    </p-inputGroup>
-                    <div *ngIf="discount.invalid && (discount.dirty || discount.touched)" class="error-messages">
-                        <div *ngIf="discount.errors?.min">Discount must be at least 0%.</div>
-                        <div *ngIf="discount.errors?.max">Discount cannot exceed 100%.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card p-fluid">
-                <h5 class="pb-2">Category</h5>
-                <p-skeleton *ngIf="isLoading" width="100%" height="150px" />
-                <div class="field" *ngIf="!isLoading">
-                    <label htmlFor="price">Product Category</label>
-                    <p-dropdown
-                        [options]="categories"
-                        [(ngModel)]="ProductDetails.Category"
-                        optionLabel="categoryName"
-                        optionValue="categoryId"
-                        [filter]="true"
-                        filterBy="categoryName"
-                        [showClear]="true"
-                        placeholder="Select a Category"
-                        name="category"
-                        id="category"
-                        #category="ngModel"
-                        (onChange)="getBrands(ProductDetails.Category)"
-                        required
-                    >
-                    </p-dropdown>
-                    <div
-                        *ngIf="
-                            category.invalid &&
-                            (category.dirty || category.touched)
-                        "
-                        class="error-messages"
-                    >
-                        <div *ngIf="category.errors?.required">
-                            Product category is required.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="field" *ngIf="!isLoading">
-                    <label htmlFor="price">Product Brand</label>
-                    <p-dropdown
-                        [options]="brands"
-                        [(ngModel)]="ProductDetails.Brand"
-                        optionLabel="brandName"
-                        optionValue="brandId"
-                        [filter]="true"
-                        filterBy="brandName"
-                        [showClear]="true"
-                        placeholder="Select a Brand"
-                        id="brand"
-                        name="brand"
-                        #brand="ngModel"
-                        required
-                    >
-                    </p-dropdown>
-                    <div
-                        *ngIf="brand.invalid && (brand.dirty || brand.touched)"
-                        class="error-messages"
-                    >
-                        <div *ngIf="brand.errors?.required">
-                            Product brand is required.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card p-fluid">
-                <h5>Inventory Details</h5>
-                <p-skeleton *ngIf="isLoading" width="100%" height="150px" />
-                <div
-                    style="
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                    "
-                >
-                    <div>
-                        <div class="field" *ngIf="!isLoading">
-                            <label htmlFor="productName">Product SKU</label>
-                            <input
-                                pInputText
-                                placeholder="Enter Product SKU"
-                                id="sku"
-                                name="sku"
-                                [(ngModel)]="ProductDetails.SKU"
-                                #sku="ngModel"
-                                type="text"
-                                required
-                            />
-                            <div
-                                *ngIf="
-                                    sku.invalid && (sku.dirty || sku.touched)
-                                "
-                                class="error-messages"
-                            >
-                                <div *ngIf="sku.errors?.required">
-                                    Product SKU is required.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="field" style="margin-left: 15px" *ngIf="!isLoading">
-                            <label htmlFor="productName"
-                                >Product Quantity</label
-                            >
-                            <input
-                                pInputText
-                                placeholder="Enter Product Quantity"
-                                id="stockStatus"
-                                name="stockStatus"
-                                [(ngModel)]="ProductDetails.StockStatus"
-                                #stockStatus="ngModel"
-                                type="text"
-                                [class]="'ps-2'"
-                                required
-                            />
-                            <div
-                                *ngIf="
-                                    stockStatus.invalid &&
-                                    (stockStatus.dirty || stockStatus.touched)
-                                "
-                                class="error-messages"
-                            >
-                                <div *ngIf="stockStatus.errors?.required">
-                                    Product stock is required.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-12 lg:col-6">
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Enter Product Quantity"
+                    />
                 </div>
             </div>
         </div>
     </div>
-</form>
+</div>
