@@ -38,6 +38,9 @@ export interface Users {
     gender?: string;
     avatar?: '';
     avatarFile?: any;
+    logOutTime?: any;
+    lastMessage?: any;
+    lastMessageDate?: any;
 }
 
 export interface CountData {
@@ -112,4 +115,22 @@ export interface SubCategory {
     subCategoryName?: string;
     isActive?: boolean;
     isDeleted?: boolean;
+}
+
+export interface Message {
+    Id?: number;
+    FromUserId?: number;
+    ToUserId?: number;
+    Mesaage?: string;
+    created?: any;
+    Isactive?: boolean;
+    isSent?: boolean;
+}
+
+export interface SederDetails {
+    senderId?: any;
+    receiverId?: any;
+    senderName?: any;
+    senderImg?: any;
+    senderMsg?: any;
 }

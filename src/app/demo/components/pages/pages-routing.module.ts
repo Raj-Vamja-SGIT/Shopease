@@ -30,6 +30,13 @@ import { RouterModule } from '@angular/router';
                         (m) => m.SubCategoryModule
                     ),
             },
+            {
+                path: 'connect',
+                loadChildren: () =>
+                    import('./connect/connect.module').then(
+                        (m) => m.ConnectModule
+                    ),
+            },
             { path: '**', redirectTo: '/notfound' },
         ]),
     ],

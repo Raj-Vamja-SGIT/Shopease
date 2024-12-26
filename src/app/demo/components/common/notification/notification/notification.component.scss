@@ -1,0 +1,60 @@
+.notification-container {
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    z-index: 1000;
+  }
+  
+  .notification {
+    display: flex;
+    align-items: center;
+    background: rgba(249, 103, 95, 0.24);
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    width: 300px;
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  .notification-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .notification-content {
+    flex-grow: 1;
+  }
+  
+  .notification-username {
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .notification-message {
+    margin: 5px 0 0;
+    color: #555;
+  }
+  
+  .close-button {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #999;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateX(200px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  

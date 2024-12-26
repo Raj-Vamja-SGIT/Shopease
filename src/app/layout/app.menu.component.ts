@@ -77,5 +77,17 @@ export class AppMenuComponent implements OnInit {
                 ],
             });
         }
+        if (this.userRole == 1 || 2) {
+            this.model.push({
+                label: 'Chat',
+                items: [
+                    {
+                        label: 'Connect',
+                        icon: 'pi pi-comments',
+                        routerLink: ['pages/connect'],
+                    },
+                ],
+            });
+        }
     }
 }

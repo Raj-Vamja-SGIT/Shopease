@@ -15,6 +15,7 @@ export class CommonService {
             register: 'api/Auth/Register',
             forgotPassword: 'api/Auth/ForgotPassword',
             changePassword: 'api/Auth/ChangeUserPassword',
+            updateStatus: 'api/Auth/UpdateOnlineUserStatus',
         },
         userProfile: {
             getUserProfile: 'api/UserProfile/GetUserProfile',
@@ -29,12 +30,14 @@ export class CommonService {
             getSubcategories: 'api/Product/GetSubCategories',
             getSubcategoryDetails: 'api/Product/GetSubcategoryDetais',
             getProductImages: 'api/Product/GetProductImages',
+            getLastMessages: 'api/Admin/GetLastMessages',
 
             addUser: 'api/Admin/AddUser',
             saveProduct: 'api/Product/AddUpdateProduct',
             addProductImage: 'api/Product/AddProductImages',
             updateImageOrder: 'api/Product/UpdateImageOrder',
             addUpdateSubcategory: 'api/Product/AddUpdateSubCategory',
+            logOutTime: 'api/Admin/LogOutTime',
 
             deleteUser: 'api/Admin/DeleteUser',
             deleteMultiUser: 'api/Admin/DeleteMultiUser',
@@ -237,6 +240,30 @@ export class CommonService {
             'Content-Type': 'application/json',
         });
         const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.deleteSubCategory}?subCategoryId=${subCategoryId}`;
+        return this.http.post(url, { headers });
+    }
+
+    updateStatus(userId: any): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.auth.updateStatus}?userId=${userId}`;
+        return this.http.post(url, { headers });
+    }
+
+    logOutTime(userId: any): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.logOutTime}?userId=${userId}`;
+        return this.http.post(url, { headers });
+    }
+
+    getLastMessages(userId: any): Observable<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        const url = `${this.apiUrl.baseURL}${this.apiUrl.admin.getLastMessages}?fromUserId=${userId}`;
         return this.http.post(url, { headers });
     }
 }

@@ -9,7 +9,8 @@ export const environment = {
   secretKey: 'a3a378857cf1f35177a9d24b28e795f09bceccf0dbc74e2f44837315f0b82f85',
   avatarUrl: 'http://localhost:5236/Documents/User/Thumbnail/',
   productImageUrl: 'http://localhost:5236/Documents/Product/Images/',
-  clientID: '386590630-f65h620nlkg53bobqqjj6qev9rdp7aht.apps.googleusercontent.com'
+  clientID: '386590630-f65h620nlkg53bobqqjj6qev9rdp7aht.apps.googleusercontent.com',
+  chatHubUrl:"http://localhost:5236/ChatHub/?key="
 };
 
 /*

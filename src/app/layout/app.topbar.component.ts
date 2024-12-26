@@ -81,7 +81,7 @@ export class AppTopBarComponent {
         public router: Router,
         public encryptionService: EncryptionService,
         public userService: UserService,
-        private service: CommonService
+        private readonly service: CommonService
     ) {
         this.userId =
             this.encryptionService.getDecryptedData('authData')?.userId;
@@ -132,5 +132,7 @@ export class AppTopBarComponent {
         this.router.navigate(['auth/login']);
         this.userService.updateAvatar('');
         this.userService.getUserId('');
+        this.service.updateStatus(this.userId).subscribe((response) => {});
+        this.service.logOutTime(this.userId).subscribe((response) => {});
     }
 }

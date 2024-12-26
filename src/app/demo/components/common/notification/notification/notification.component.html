@@ -1,0 +1,10 @@
+<div class="notification-container" *ngIf="isVisible">
+    <div class="notification">
+        <img [src]="userImage" alt="User Image" class="notification-image" />
+        <div class="notification-content">
+            <strong class="notification-username">{{ userName }}</strong>
+            <p class="notification-message">{{ messageContent }}</p>
+        </div>
+        <button class="close-button" (click)="closeNotification()">×</button>
+    </div>
+</div>

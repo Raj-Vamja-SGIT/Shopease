@@ -1,0 +1,216 @@
+<div class="grid">
+    <div class="col-12 xl:col-3">
+        <div class="card p-fluid portion">
+            <div class="contact-header">
+                <h5>Contacts</h5>
+            </div>
+            <span class="p-input-icon-left p-input-icon-right">
+                <i class="pi pi-user"></i>
+                <input type="text" pInputText placeholder="Search" />
+                <i class="pi pi-search"></i>
+            </span>
+            <p-divider layout="horizontal"> </p-divider>
+            <div class="contact-container">
+                <div
+                    *ngFor="let user of userList"
+                    class="mb-1 pr-1"
+                    (click)="MessageView(user)"
+                >
+                    <div
+                        class="cursor-pointer"
+                        style="
+                            padding: 2px;
+                            border-radius: 10px;
+                            background: linear-gradient(
+                                    90deg,
+                                    rgba(187, 199, 205, 0.2),
+                                    rgba(251, 199, 145, 0.2)
+                                ),
+                                linear-gradient(
+                                    180deg,
+                                    rgba(253, 228, 165, 0.2),
+                                    rgba(145, 210, 204, 0.2)
+                                );
+                        "
+                    >
+                        <div
+                            class="p-3 surface-card h-full"
+                            style="border-radius: 8px"
+                        >
+                            <div class="items-center">
+                                <div class="grid">
+                                    <div class="col-2">
+                                        <div class="relative md:mr-3">
+                                            <img
+                                                class="contact-img"
+                                                [src]="
+                                                    user.avatar
+                                                        ? baseUrl + user.avatar
+                                                        : '../../../../assets/demo/images/avatar/3d-avatar.jpg'
+                                                "
+                                                [alt]="user.userName"
+                                                width="50"
+                                            />
+                                            <span
+                                                [ngClass]="{
+                                                    'w-1rem h-1rem border-circle border-2 surface-border absolute bg-green-400':
+                                                        user.isOnline
+                                                }"
+                                                style="bottom: 2px; left: 29px"
+                                            ></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 pl-3">
+                                        <h6
+                                            class="mb-1 text-900 pt-2 user-name"
+                                        >
+                                            {{ user.userName }}
+                                        </h6>
+                                        <p class="last-msg">
+                                            {{ user.lastMessage }}
+                                        </p>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="last-msg-time">
+                                            <p class="last-msg mb-1 pt-2">
+                                                {{
+                                                    user.lastMessageDate
+                                                        | lastSeen
+                                                }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="justify-content-between"></div>
+                                    <div
+                                        class="flex smaller-font text-900 justify-content-between"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 xl:col-9">
+        <div
+            class="card p-fluid portion"
+            [ngClass]="{ ' default': !selectedContact }"
+        >
+            <div *ngIf="selectedContact">
+                <div
+                    class="flex align-items-center border-bottom-1 surface-border p-3 lg:p6"
+                >
+                    <img
+                        class="chat-img"
+                        [src]="
+                            selectedContact.avatar
+                                ? baseUrl + selectedContact.avatar
+                                : '../../../../assets/demo/images/avatar/3d-avatar.jpg'
+                        "
+                        [alt]="selectedContact.userName"
+                        width="50"
+                    />
+                    <div>
+                        <h5 class="pt-1 mb-0">
+                            {{ selectedContact.userName }}
+                        </h5>
+                        <span
+                            class="mt-1 smaller-font"
+                            *ngIf="!selectedContact.isOnline"
+                            >{{ lastActive }}</span
+                        >
+                        <span
+                            class="mt-1 smaller-font"
+                            *ngIf="selectedContact.isOnline"
+                            >Active</span
+                        >
+                    </div>
+                </div>
+                <div
+                    #scrollContainer
+                    class="chat-messages contact-container"
+                    style="max-height: 53vh"
+                    *ngIf="selectedContact"
+                    role="region"
+                    aria-live="polite"
+                    aria-label="Chat messages"
+                >
+                    <div
+                        *ngFor="let message of messages"
+                        [ngClass]="
+                            userId == message.fromUserId
+                                ? 'message-sent'
+                                : 'message-received'
+                        "
+                        class="message"
+                    >
+                        <p-divider
+                            layout="horizontal"
+                            align="center"
+                            *ngIf="!message.isGrouped"
+                        >
+                            <span
+                                class="p-tag"
+                                style="background-color: #f96e66e3"
+                                >{{
+                                    message.createdDate | lastSeen : true
+                                }}</span
+                            >
+                        </p-divider>
+
+                        <p class="message-text">{{ message.message }}</p>
+                        <span class="message-time">{{
+                            message.createdDate | lastSeen
+                        }}</span>
+                    </div>
+
+                    <div *ngIf="Typing" class="message-received message">
+                        <p class="message-text">
+                            <span class="typing-indicator">
+                                <span>.</span><span>.</span><span>.</span>
+                            </span>
+                        </p>
+                    </div>
+
+                    <div></div>
+                </div>
+                <div class="chat-input" *ngIf="selectedContact">
+                    <input
+                        type="text"
+                        (keypress)="TypingNotiFication(selectedContact.userId)"
+                        (keydown.enter)="SendMessage(selectedContact)"
+                        pInputText
+                        placeholder="Type a message"
+                        [(ngModel)]="newMessage"
+                        class="mt-5"
+                    />
+                    <button
+                        pButton
+                        icon="pi pi-send"
+                        class="p-button-rounded w-3rem ml-2 mt-5"
+                        (click)="SendMessage(selectedContact)"
+                    ></button>
+                </div>
+            </div>
+            <div *ngIf="!selectedContact">
+                <img
+                    src="../../../../assets/layout/images/shop.png"
+                    style="height: 120px; width: 385px"
+                    alt=""
+                />
+            </div>
+        </div>
+    </div>
+</div>
+
+{{isVisible | json}}
+<app-notification
+    [userImage]="'../../../../assets/demo/images/avatar/3d-avatar.jpg'"
+    [userName]="sender.senderMsg"
+    [messageContent]="sender.senderMsg"
+    [isVisible]="isVisible"
+>
+</app-notification>
